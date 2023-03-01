@@ -23,6 +23,5 @@ int (util_sys_inb)(int port, uint8_t *value) {
   uint32_t n = 0;
   if (sys_inb(port, &n) != 0) return 1;
   *value = (uint8_t) n;
-
   return 0;
 }

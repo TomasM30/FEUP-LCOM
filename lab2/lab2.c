@@ -4,10 +4,6 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-#define TIMER_0 0x40
-#define TIMER_1 0x41
-#define TIMER_2 0x42
-#define TIMER_CTRL 0x43
 
 
 int main(int argc, char *argv[]) {
