@@ -10,8 +10,8 @@
 
 int (timer_set_frequency)(uint8_t timer, uint32_t freq) {
 
-  //frequency cant be less or equal to zero
-  if (freq <= 0){
+  //frequency cant be less or equal to 18
+  if (freq <= 18){
     return 1;
   }
 
@@ -21,11 +21,6 @@ int (timer_set_frequency)(uint8_t timer, uint32_t freq) {
   */
   uint16_t div = TIMER_FREQ/freq;
 
-  /*
-  //if the div value is gt TIMER_LSB_MSB it means that div cant be represented as the freq is to low
-  if (div > TIMER_LSB_MSB){
-    return 1;
-  }*/
 
   //return the timer configuration if its possible (timer_get_conf(timer, &control_word) == 0)
   uint8_t control_word = 0;
