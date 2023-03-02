@@ -9,10 +9,59 @@
 #define TIMER_CTRL 0x43
 
 int (timer_set_frequency)(uint8_t timer, uint32_t freq) {
-  /* To be implemented by the students */
-  printf("%s is not yet implemented!\n", __func__);
 
-  return 1;
+  //frequency cant be less or equal to zero
+  if (freq <= 0){
+    return 1;
+  }
+
+  /*
+  * number of ticks the timer will count before each interrupt
+  * frequency of the clock signal (TIMER_FREQ) / desired frequency (freq) = number of clock ticks
+  */
+  uint16_t div = TIMER_FREQ/freq;
+
+  /*
+  //if the div value is gt TIMER_LSB_MSB it means that div cant be represented as the freq is to low
+  if (div > TIMER_LSB_MSB){
+    return 1;
+  }*/
+
+  //return the timer configuration if its possible (timer_get_conf(timer, &control_word) == 0)
+  uint8_t control_word = 0;
+  if (timer_get_conf(timer, &control_word) != 0){
+    return 1;
+  }
+
+  //counting mode bits
+  control_word &= 0x0F;
+
+
+  control_word |= TIMER_LSB_MSB;
+
+  control_word |= (timer << 6);
+
+  sys_outb(TIMER_CTRL, control_word);
+
+  switch (timer)
+  {
+  case 0:
+    if(sys_outb(TIMER_0, util_get_LSB(div)) != 0) return 1;
+    if(sys_outb(TIMER_0, util_get_MSB(div)) != 0) return 1;
+    break;
+  
+  case 1:
+    if(sys_outb(TIMER_1, util_get_LSB(div)) != 0) return 1;
+    if(sys_outb(TIMER_1, util_get_MSB(div)) != 0) return 1;
+    break;
+
+  case 2:
+    if(sys_outb(TIMER_2, util_get_LSB(div)) != 0) return 1;
+    if(sys_outb(TIMER_2, util_get_MSB(div)) != 0) return 1;
+    break;
+  }
+
+  return 0;
 }
 
 int (timer_subscribe_int)(uint8_t *bit_no) {
