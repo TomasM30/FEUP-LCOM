@@ -43,21 +43,26 @@ int (timer_set_frequency)(uint8_t timer, uint32_t freq) {
 
   sys_outb(TIMER_CTRL, control_word);
 
+  uint8_t msb = 0;
+  uint8_t lsb = 0;
+  util_get_LSB(div, &lsb);
+  util_get_MSB(div, &msb);
+
   switch (timer)
   {
   case 0:
-    if(sys_outb(TIMER_0, util_get_LSB(div)) != 0) return 1;
-    if(sys_outb(TIMER_0, util_get_MSB(div)) != 0) return 1;
+    if(sys_outb(TIMER_0, lsb) != 0) return 1;
+    if(sys_outb(TIMER_0, msb) != 0) return 1;
     break;
   
   case 1:
-    if(sys_outb(TIMER_1, util_get_LSB(div)) != 0) return 1;
-    if(sys_outb(TIMER_1, util_get_MSB(div)) != 0) return 1;
+    if(sys_outb(TIMER_1, lsb) != 0) return 1;
+    if(sys_outb(TIMER_1, msb) != 0) return 1;
     break;
 
   case 2:
-    if(sys_outb(TIMER_2, util_get_LSB(div)) != 0) return 1;
-    if(sys_outb(TIMER_2, util_get_MSB(div)) != 0) return 1;
+    if(sys_outb(TIMER_2, lsb) != 0) return 1;
+    if(sys_outb(TIMER_2, msb) != 0) return 1;
     break;
   }
 
