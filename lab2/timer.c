@@ -5,8 +5,7 @@
 
 #include "i8254.h"
 
-#define TIMER_0 0x40
-#define TIMER_CTRL 0x43
+int hook_id = 0, counter = 0;
 
 int (timer_set_frequency)(uint8_t timer, uint32_t freq) {
 
@@ -65,22 +64,21 @@ int (timer_set_frequency)(uint8_t timer, uint32_t freq) {
 }
 
 int (timer_subscribe_int)(uint8_t *bit_no) {
-    /* To be implemented by the students */
-  printf("%s is not yet implemented!\n", __func__);
+  *bit_no = hook_id;
 
-  return 1;
+  if (sys_irqsetpolicy(TIMER0_IRQ, IRQ_REENABLE, &hook_id) != 0) return 1;
+
+  return 0;
 }
 
 int (timer_unsubscribe_int)() {
-  /* To be implemented by the students */
-  printf("%s is not yet implemented!\n", __func__);
+  if (sys_irqrmpolicy(&hook_id) != 0) return 1;
 
-  return 1;
+  return 0;
 }
 
 void (timer_int_handler)() {
-  /* To be implemented by the students */
-  printf("%s is not yet implemented!\n", __func__);
+  counter++;
 }
 
 int (timer_get_conf)(uint8_t timer, uint8_t *st) {
@@ -95,7 +93,7 @@ int (timer_get_conf)(uint8_t timer, uint8_t *st) {
 
   timer = 1<<((int)timer+1);
 
-  uint8_t rb_word = 0xE0;  // (11000000 em binário)   Criar a bit mask da read-back word, como o status não nos interessa o 5 bit fica set a 1
+  uint8_t rb_word = 0xE0;  // (11100000 em binário)   Criar a bit mask da read-back word, como o status não nos interessa o 5 bit fica set a 1
   rb_word |= timer;         // Completar a read-back word com a mask do timer
 
   if (sys_outb(TIMER_CTRL, rb_word) != 0) return 1;
