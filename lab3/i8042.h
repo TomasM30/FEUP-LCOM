@@ -4,8 +4,15 @@
 #include <lcom/lcf.h>
 
 #define KBC_ESC 0x81
-#define KBC_CMG_REG 0x60
+#define KBC_OUT_BUF 0x60
+#define KBC_INP_BUF 0x60
+#define KBC_STATUS 0x64
 
 #define KBC_IRQ 1
+
+#define KBC_ST_INB BIT(1)
+#define KBC_ST_OBF BIT(0)
+#define KBC_PAR_ERR BIT(7)
+#define KBC_TO_ERR BIT(6)
 
 #endif

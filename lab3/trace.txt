@@ -1,0 +1,28 @@
+@lcflib.a:2019, lcf_start
+  kbd_test_scan()
+  @keyboard.c:16, kbc_subscribe_int
+    sys_irqsetpolicy(KBC_IRQ, IRQ_REENABLE | IRQ_EXCLUSIVE, &hook_id)
+  > sys_irqsetpolicy(1, 3, addr: 0x822d2c8 [0])
+  < sys_irqsetpolicy(1, 3, addr: 0x822d2c8 [10]) -> (ret: 0)
+  @lab3.c:72, kbd_test_scan
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0x8249080, addr: 0x824907c)
+  < driver_receive(<[HARDWARE: 0b0000000000000000000000000000000000000000000000000000000000000001]>)
+  @lab3.c:80, kbd_test_scan
+    kbc_ih()
+    @utils.c:32, util_sys_inb
+      sys_inb(port, &n)
+    > sys_inb(0x64, addr: 0xeffff6a0)
+    < sys_inb(0x64, addr: 0xeffff6a0 [0x1d = 0b00011101])
+  @lab3.c:81, kbd_test_scan
+    kbd_print_scancode(true, 1, bytes)
+    "Makecode: 0x00"
+  < kbd_print_scancode(true, 1, addr: 0x8249070 [0x00]) -> (ret: 0)
+  @lab3.c:88, kbd_test_scan
+    micros_to_ticks(DELAY_US)
+  @lab3.c:88, kbd_test_scan
+    tickdelay(micros_to_ticks(DELAY_US))
+  > tickdelay(1 [16.7 ms])
+  @lab3.c:72, kbd_test_scan
+    driver_receive(ANY, &msg, &ipc_status)
+  > driver_receive(ANY, addr: 0x8249080, addr: 0x824907c)

@@ -1,6 +1,12 @@
-#include <lcom/lcf.h>
+#ifndef _LAB3
+#define _LAB3
 
+#include <lcom/lcf.h>
 #include <lcom/lab3.h>
+
+#include <keyboard.h>
+#include <utils.h>
+#include "i8042.h"
 
 #include <stdbool.h>
 #include <stdint.h>
@@ -51,11 +57,40 @@ int main(int argc, char *argv[]) {
 
 */
 
-int(kbd_test_scan)() {
-  /* To be completed by the students */
-  printf("%s is not yet implemented!\n", __func__);
+extern uint8_t read_byte;
+uint8_t irq_set;
+int r;
+message msg;
+int ipc_status;
+uint8_t bytes[2];
+extern int counter;
 
-  return 1;
+int(kbd_test_scan)() {
+  if (kbc_subscribe_int(&irq_set) != 0) return 1;
+
+  while(read_byte != KBC_ESC){
+    if((r = driver_receive(ANY, &msg, &ipc_status)) != 0){
+      printf("driver receive failed with: %d,r ");
+      continue;
+    }
+    if(is_ipc_notify(ipc_status)){
+      switch(_ENDPOINT_P(msg.m_source)){
+        case HARDWARE:
+          if (msg.m_notify.interrupts & BIT(irq_set)){
+            kbc_ih();
+            kbd_print_scancode(true, 1, bytes);
+          }
+          break;
+        default:
+          break;
+      }
+    }
+    tickdelay(micros_to_ticks(DELAY_US));
+  }
+
+  kbd_print_no_sysinb(counter);
+  if(kbc_unsubscribe_int()!= 0) return 1;
+  return 0;
 }
 
 int(kbd_test_poll)() {
@@ -71,3 +106,5 @@ int(kbd_test_timed_scan)(uint8_t n) {
 
   return 1;
 }
+
+#endif
