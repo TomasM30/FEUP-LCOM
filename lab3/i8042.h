@@ -15,4 +15,6 @@
 #define KBC_PAR_ERR BIT(7)
 #define KBC_TO_ERR BIT(6)
 
+#define SCAN_MK_OR_BR BIT(7)
+
 #endif

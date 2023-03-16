@@ -58,38 +58,53 @@ int main(int argc, char *argv[]) {
 */
 
 extern uint8_t read_byte;
-uint8_t irq_set;
+int counter = 0;
 int r;
+uint8_t irq_set;  
 message msg;
 int ipc_status;
 uint8_t bytes[2];
-extern int counter;
+int i = 0;
 
 int(kbd_test_scan)() {
+  
   if (kbc_subscribe_int(&irq_set) != 0) return 1;
+  
 
   while(read_byte != KBC_ESC){
+
     if((r = driver_receive(ANY, &msg, &ipc_status)) != 0){
       printf("driver receive failed with: %d,r ");
       continue;
     }
+
     if(is_ipc_notify(ipc_status)){
       switch(_ENDPOINT_P(msg.m_source)){
         case HARDWARE:
           if (msg.m_notify.interrupts & BIT(irq_set)){
             kbc_ih();
-            kbd_print_scancode(true, 1, bytes);
+
+            if (read_byte == 0xE0){
+              bytes[i] = read_byte;
+              i++;
+              continue;
+            }
+
+            bytes[i] = read_byte;
+            kbd_print_scancode(!(read_byte & SCAN_MK_OR_BR), i+1, bytes);
+            i = 0;
           }
           break;
         default:
           break;
       }
     }
-    tickdelay(micros_to_ticks(DELAY_US));
+
+    tickdelay(micros_to_ticks(DELAY_US+5000));
+    
   }
 
   kbd_print_no_sysinb(counter);
-  if(kbc_unsubscribe_int()!= 0) return 1;
   return 0;
 }
 

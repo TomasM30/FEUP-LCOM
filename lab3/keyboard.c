@@ -7,6 +7,7 @@
 
 
 int hook_id = 0;
+extern int counter;
 
 uint8_t read_byte;
 
@@ -26,11 +27,12 @@ int (kbc_unsubscribe_int)(){
 void (kbc_ih)(){
     uint8_t stat;
 
-    if (util_sys_inb(KBC_STATUS, &stat) != 0) return;
-    if ((stat & KBC_ST_OBF) == 0){
+    if (util_sys_inb(KBC_STATUS, &stat)) return;
+    counter++;
+    if ((stat & KBC_ST_OBF)){
         if (util_sys_inb(KBC_OUT_BUF, &read_byte)!= 0) return;
-
+        counter++;
         if ((stat & (KBC_PAR_ERR | KBC_TO_ERR)) != 0) return;   
     }
-
+    return;
 }

@@ -3,8 +3,6 @@
 #include <stdint.h>
 #include <utils.h>
 
-int counter = 0;
-
 int(util_get_LSB)(uint16_t val, uint8_t *lsb) {
   // Extract the least significant byte of val and store it in *lsb
   if (lsb == NULL){
@@ -30,10 +28,6 @@ int(util_get_MSB)(uint16_t val, uint8_t *msb) {
 int (util_sys_inb)(int port, uint8_t *value) {
   uint32_t n = 0;
   if (sys_inb(port, &n) != 0) return 1;
-
-  #ifdef _LAB3
-  counter++;
-  #endif
 
   *value = (uint8_t) n;
   return 0;
