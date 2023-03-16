@@ -52,7 +52,7 @@ uint8_t irq_set;
 int ipc_status;
 message msg;
 int r;
-extern int counter;
+extern int cnt;
 
 int(timer_test_int)(uint8_t time) {
 
@@ -71,10 +71,12 @@ int(timer_test_int)(uint8_t time) {
         case HARDWARE:			
           if (msg.m_notify.interrupts & BIT(irq_set)){
             timer_int_handler();
-            if (counter == (int) sys_hz()){
-              counter = 0;
+            if (cnt == (int) sys_hz()){
+              cnt = 0;
               timer_print_elapsed_time();
               time--;
+              
+              
             }
           }
           

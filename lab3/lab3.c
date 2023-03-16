@@ -6,6 +6,7 @@
 
 #include <keyboard.h>
 #include <utils.h>
+#include <lcom/timer.h>
 #include "i8042.h"
 
 #include <stdbool.h>
@@ -108,18 +109,61 @@ int(kbd_test_scan)() {
   return 0;
 }
 
-int(kbd_test_poll)() {
-  /* To be completed by the students */
-  printf("%s is not yet implemented!\n", __func__);
 
-  return 1;
+int(kbd_test_poll)() {
+  
+  do{
+
+
+    tickdelay(micros_to_ticks(DELAY_US));
+  }while (read_byte != KBC_ESC);
+
+  return 0;
 }
 
-int(kbd_test_timed_scan)(uint8_t n) {
-  /* To be completed by the students */
-  printf("%s is not yet implemented!\n", __func__);
+uint8_t timer_irq_set;
+int cnt;
 
-  return 1;
+int(kbd_test_timed_scan)(uint8_t n) {
+  if (kbc_subscribe_int(&irq_set) != 0) return 1;
+  if (timer_subscribe_int(&timer_irq_set) != 0) return 1;
+
+  while(read_byte != KBC_ESC && (cnt/60.0 < n)){
+    if((r = driver_receive(ANY, &msg, &ipc_status)) != 0){
+      printf("driver receive failed with: %d,r ");
+      continue;
+    }
+     if (is_ipc_notify(ipc_status) && _ENDPOINT_P(msg.m_source) == HARDWARE){
+        if (msg.m_notify.interrupts & BIT(irq_set)){
+          kbc_ih();
+
+          if (read_byte == 0xE0){
+            bytes[i] = read_byte;
+            i++;
+            continue;
+          }
+
+          bytes[i] = read_byte;
+          kbd_print_scancode(!(read_byte & SCAN_MK_OR_BR), i+1, bytes);
+          i = 0;
+
+          cnt = 0;
+
+        }s
+        else if (msg.m_notify.interrupts & BIT(timer_irq_set))
+        {
+          timer_int_handler();
+        }
+        
+     }
+  }
+
+  if (kbc_unsubscribe_int() != 0) return 1;
+  if (timer_unsubscribe_int() != 0) return 1;
+
+  kbd_print_no_sysinb(counter);
+
+  return 0;
 }
 
 #endif

@@ -12,7 +12,7 @@ extern int counter;
 uint8_t read_byte;
 
 int (kbc_subscribe_int)(uint8_t *bit_no){
-    *bit_no = hook_id;
+    hook_id = *bit_no;
 
     if (sys_irqsetpolicy(KBC_IRQ, IRQ_REENABLE | IRQ_EXCLUSIVE, &hook_id) != 0) return 1;
 
@@ -26,8 +26,7 @@ int (kbc_unsubscribe_int)(){
 
 void (kbc_ih)(){
     uint8_t stat;
-
-    if (util_sys_inb(KBC_STATUS, &stat)) return;
+    kbc_get_status(&stat);
     counter++;
     if ((stat & KBC_ST_OBF)){
         if (util_sys_inb(KBC_OUT_BUF, &read_byte)!= 0) return;
@@ -35,4 +34,12 @@ void (kbc_ih)(){
         if ((stat & (KBC_PAR_ERR | KBC_TO_ERR)) != 0) return;   
     }
     return;
+}
+
+int (kbc_get_status)(uint8_t *status){
+    return util_sys_inb(KBC_STATUS, status);   
+}
+
+int (kbc_read_out_buf)(){
+    return util_sys_inb(KBC_OUT_BUF, &read_byte);
 }
