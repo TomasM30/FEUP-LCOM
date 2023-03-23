@@ -149,7 +149,7 @@ int(kbd_test_timed_scan)(uint8_t n) {
 
           cnt = 0;
 
-        }s
+        }
         else if (msg.m_notify.interrupts & BIT(timer_irq_set))
         {
           timer_int_handler();
