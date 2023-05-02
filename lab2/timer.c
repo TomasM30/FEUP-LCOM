@@ -8,7 +8,6 @@
 int hook_id = 0;
 int counter = 0;
 
-
 int (timer_set_frequency)(uint8_t timer, uint32_t freq) {
 	uint8_t control = 0x00;
 
