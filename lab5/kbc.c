@@ -4,7 +4,7 @@ int hook_kbc = 1;
 uint8_t scancode = 0x00;
 
 int (kbc_subscribe_int)(uint8_t *bit_no) {
-    *bit_no = hook_kbc;
+    *bit_no = BIT(hook_kbc);
 
     if (sys_irqsetpolicy(KBC_IRQ, IRQ_REENABLE | IRQ_EXCLUSIVE, &hook_kbc) != 0) return 1;
 

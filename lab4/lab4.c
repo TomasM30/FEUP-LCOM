@@ -4,10 +4,12 @@
 #include <stdint.h>
 #include <stdio.h>
 
-#include "mouse.h"
-#include "utils.h"
-
 // Any header files included below this line should have been created by you
+
+#include "mouse.h"
+
+extern struct packet pp;
+extern uint8_t idx;
 
 int main(int argc, char *argv[]) {
   // sets the language of LCF messages (can be either EN-US or PT-PT)
@@ -33,79 +35,44 @@ int main(int argc, char *argv[]) {
   return 0;
 }
 
-int r, ipc_status, i = 0;
-message msg;
-uint8_t bytes[3];
-uint8_t irq_set, output, packet;
-
-int (mouse_enable_data_reporting_ours)(){
-    int tries = 3;
-    while(output != MOUSE_SUCCESS && tries--){
-        if (check_out_buf() != 0) return 1;
-        if (sys_outb(MOUSE_IN_BUF, MOUSE_WRITE_REQUEST) != 0) return 1;
-        if (check_out_buf() != 0) return 1;
-        if (sys_outb(MOUSE_OUT_BUF, MOUSE_ENABLE_REP) != 0) return 1;
-        if (check_out_buf() != 0) return 1;
-        if (util_sys_inb(MOUSE_OUT_BUF, &output) != 0) return 1;
-    }
-    return 0;
-}
-
-int (mouse_disable_data_reporting)(){
-    int tries = 3;
-    while(output != MOUSE_SUCCESS && tries--){
-        if (check_out_buf() != 0) return 1;
-        if (sys_outb(MOUSE_IN_BUF, MOUSE_WRITE_REQUEST) != 0) return 1;
-        if (check_out_buf() != 0) return 1;   
-        if (sys_outb(MOUSE_OUT_BUF, MOUSE_DISABLE_REP) != 0) return 1;
-        if (check_out_buf() != 0) return 1;
-        if (util_sys_inb(MOUSE_OUT_BUF, &output) != 0) return 1;
-    }
-    return 0;
-}
-
 
 int (mouse_test_packet)(uint32_t cnt) {
+    int ipc_status;
+    uint8_t irq_set;
+    message msg;
+    uint8_t r;
+
     if (mouse_subscribe_int(&irq_set) != 0) return 1;
-    mouse_enable_data_reporting_ours();
-    
-    while(cnt > 0){
-        if ((r = driver_receive(ANY, &msg, &ipc_status))!= 0){
-            printf("driver receive failed with %d,r");
-            continue;
-        }
-        if (is_ipc_notify(ipc_status) && _ENDPOINT_P(msg.m_source) == HARDWARE){
-            if (msg.m_notify.interrupts == BIT(irq_set)){
-                mouse_ih();
-                bytes[i] = packet;
-                i++;
-            }
-        }
 
-        if (i == 3){
-            struct packet pp;
-            pp.bytes[0] = bytes[0];
-            pp.bytes[1] = bytes[1];
-            pp.bytes[2] = bytes[2];
-            pp.lb = bytes[0] & MOUSE_LB;
-            pp.rb = bytes[0] & MOUSE_RB;
-            pp.mb = bytes[0] & MOUSE_MB;
-            pp.x_ov = bytes[0] & MOUSE_X_OVF;
-            pp.y_ov = bytes[0] & MOUSE_Y_OVF;
+    if (mouse_write(MOUSE_EN_DATA_REP) != 0) return 1;
 
-            if (bytes[0] & MOUSE_X_SIGN) pp.delta_x = bytes[1] | 0xFF00; else pp.delta_x = bytes[1];
-            if (bytes[0] & MOUSE_Y_SIGN) pp.delta_y = bytes[2] | 0xFF00; else pp.delta_y = bytes[2];
+    while (cnt) {
+		if ( (r = driver_receive(ANY, &msg, &ipc_status)) != 0) continue;
 
+		if (ipc_notify(ipc_status)) {
+			switch(_ENDPOINT_P(msg.m_source)) {
+				case HARDWARE: 
+					if (msg.m_notify.interrupts & irq_set) { 
+            			mouse_ih();                           
+            			mouse_sync_bytes();                      
+           				 if (idx == 3) {                    
+							mouse_print_packet(&pp);      
+							idx = 0;
+							cnt--;
+            			}
+        	  		}
+		  			break;
+				default:
+					break;
+      		}
+    	}
+	}
 
-            mouse_print_packet(&pp);
-            cnt--;
-            i = 0;
-        }
-    }
+	if (mouse_write(MOUSE_DIS_DATA_REP) != 0) return 1;
 
-   mouse_disable_data_reporting();
-   if (mouse_unsubscribe_int() != 0) return 1;
-   return 0; 
+	if (mouse_unsubscribe_int() != 0) return 1;
+
+	return 0;
 }
 
 int (mouse_test_async)(uint8_t idle_time) {

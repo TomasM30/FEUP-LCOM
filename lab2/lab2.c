@@ -65,7 +65,7 @@ int(timer_test_int)(uint8_t time) {
 		if (is_ipc_notify(ipc_status)) {
 			switch (_ENDPOINT_P(msg.m_source)) {
 				case HARDWARE:
-					if (msg.m_notify.interrupts & BIT(irq_set)) {
+					if (msg.m_notify.interrupts & irq_set) {
 						timer_int_handler();
 						if (counter % 60 == 0) timer_print_elapsed_time();
 					}

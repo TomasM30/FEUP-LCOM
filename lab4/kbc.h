@@ -14,7 +14,7 @@ int (kbc_get_status)(uint8_t *st);
 
 int (kbc_read_data)(uint8_t *data);
 
-int (kbc_write)(int port, uint8_t data);
+int (kbc_write_cmd)(int port, uint8_t data);
 
 void (kbc_ih)();
 
