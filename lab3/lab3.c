@@ -105,7 +105,7 @@ int (kbd_test_timed_scan)(uint8_t n) {
 					if (msg.m_notify.interrupts & irq_set_kbd) {
 						keyboard_ih();
 						kbd_print_scancode(!(scancode & KBC_MSB_SCNCD), scancode == KBC_2BYTE_CODE ? 2 : 1, &scancode);
-						counter = 0;
+						timer_counter = 0;
 					}
 					break;
 
