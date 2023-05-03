@@ -25,7 +25,7 @@ int (kbc_read_data)(uint8_t port, uint8_t *output, bool mouse) {
             return 0;
         }
 
-        tickdelay(DELAY_US);
+        tickdelay(micros_to_ticks(DELAY_US));
         attempts--;
     }
 
