@@ -38,11 +38,9 @@ int(kbc_write_cmd)(int port, uint8_t cmd) {
 
 
     while (attempts) {
-        if (kbc_get_status(&status) != 0) {
-            printf("Error getting KBC status");
-            return 1;
-        }
-
+        if (kbc_get_status(&status) != 0) return 1;
+            
+ 
         if ((KBC_IBF & status) == 0) {
             if (sys_outb(port, cmd) != 0) return 1;
             return 0;

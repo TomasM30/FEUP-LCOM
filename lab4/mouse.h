@@ -1,17 +1,16 @@
 #ifndef MOUSE_H
 #define MOUSE_H
 
-#include "lcom/lcf.h"
+#include <lcom/lcf.h>
 #include "kbc.h"
-#include "i8042.h"
 
 int (mouse_subscribe_int)(uint8_t *bit_no);
 
 int (mouse_unsubscribe_int)();
 
-int (mouse_write)(uint8_t cmd);
-
 void (mouse_ih)();
+
+int (mouse_write_cmd)(uint8_t cmd);
 
 void (mouse_sync_bytes)();
 

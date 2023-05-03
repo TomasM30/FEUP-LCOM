@@ -3,7 +3,7 @@
 
 #define KBC_BRK_ESC_KEY 0x81 
 #define KBC_MSB_SCNCD BIT(7)
-#define KBC_IRQ 1 
+#define KEYBOARD_IRQ 1 
 #define MOUSE_IRQ 12 
 
 #define KBC_STAT_REG 0x64 
@@ -42,5 +42,14 @@
 #define MOUSE_STREAM_MODE 0xEA
 #define MOUSE_REMOTE_MODE 0xF0
 #define MOUSE_READ_DATA 0xEB
+#define MOUSE_WRITE_BYTE 0xD4
 
-#endif 
+#define MOUSE_LB            BIT(0)
+#define MOUSE_RB            BIT(1)
+#define MOUSE_MB            BIT(2)
+#define MOUSE_X_SIGNAL      BIT(4)
+#define MOUSE_Y_SIGNAL      BIT(5)
+#define MOUSE_X_OVERFLOW    BIT(6)
+#define MOUSE_Y_OVERFLOW    BIT(7)
+
+#endif /* I8042_H */
