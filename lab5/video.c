@@ -103,7 +103,9 @@ int (vg_erase_xpm)(xpm_map_t xpm, uint16_t x, uint16_t y) {
             if (vg_draw_pixel(x + j, y + i, 0) != 0) return 1;
             colors++;
         }
-    }
+    } 
+
+    //vg_draw_rectangle(0,0,h_res-1,v_res-1,0);
 
     return 0;
 }

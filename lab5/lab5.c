@@ -12,6 +12,7 @@
 #include "keyboard.h"
 
 extern uint8_t scancode;
+extern int timer_counter;
 
 int main(int argc, char *argv[]) {
   // sets the language of LCF messages (can be either EN-US or PT-PT)
@@ -143,7 +144,7 @@ int (video_test_move)(xpm_map_t xpm, uint16_t xi, uint16_t yi, uint16_t xf, uint
 
 	if (timer_subscribe_int(&timer_irq_set) != 0) return 1;
 
-	if (timer_set_frequency(0, fr_rate) != 0) return 1;
+	//if (timer_set_frequency(0, fr_rate) != 0) return 1;
 
 	if (keyboard_subscribe_int(&kbd_irq_set) != 0) return 1;
 
@@ -170,18 +171,21 @@ int (video_test_move)(xpm_map_t xpm, uint16_t xi, uint16_t yi, uint16_t xf, uint
 					}
 					
 					if (msg.m_notify.interrupts & timer_irq_set) {
-						printf("xi: %d, yi: %d\n", xi, yi);
-						if (vg_erase_xpm(xpm, xi, yi) != 0) return 1;
+						//printf("xi: %d, yi: %d\n", xi, yi);
+						timer_int_handler();
+						if (timer_counter % (sys_hz() / fr_rate) == 0){
+							if (vg_erase_xpm(xpm, xi, yi) != 0) return 1;
 
-						if (dir == vertical) {
-							yi += speed;
-							if (yi > yf) yi = yf;
-						} else if (dir == horizontal) {
-							xi += speed;
-							if (xi > xf) xi = xf;
+							if (dir == vertical) {
+								yi += speed;
+								if (yi > yf) yi = yf;
+							} else if (dir == horizontal) {
+								xi += speed;
+								if (xi > xf) xi = xf;
+							}
+
+							if (vg_display_xpm(xpm, xi, yi) != 0) return 1;
 						}
-
-						if (vg_display_xpm(xpm, xi, yi) != 0) return 1;
 					}
 
 					break;
