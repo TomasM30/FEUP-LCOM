@@ -20,4 +20,3 @@ int (proj_main_loop)(int argc, char *argv[]) {
     /* Your main loop code here */
     return 0;
 }
-

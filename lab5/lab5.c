@@ -144,8 +144,6 @@ int (video_test_move)(xpm_map_t xpm, uint16_t xi, uint16_t yi, uint16_t xf, uint
 
 	if (timer_subscribe_int(&timer_irq_set) != 0) return 1;
 
-	//if (timer_set_frequency(0, fr_rate) != 0) return 1;
-
 	if (keyboard_subscribe_int(&kbd_irq_set) != 0) return 1;
 
 	if (vg_start(VBE_768p_INDEXED) != 0) return 1;
