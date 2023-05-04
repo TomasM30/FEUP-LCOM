@@ -32,15 +32,13 @@ int (kbc_read_data)(uint8_t port, uint8_t *output, bool mouse) {
     return 1;
 }
 
-int(kbc_write_cmd)(int port, uint8_t cmd) {
+int(kbc_write_cmd)(uint8_t port, uint8_t cmd) {
     uint8_t status;
     uint8_t attempts = 5;
 
-
     while (attempts) {
         if (kbc_get_status(&status) != 0) return 1;
-            
- 
+
         if ((KBC_IBF & status) == 0) {
             if (sys_outb(port, cmd) != 0) return 1;
             return 0;
