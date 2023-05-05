@@ -3,7 +3,7 @@
 int mouse_hook_id = 2;
 uint8_t packetBytes[3];
 uint8_t byte;
-uint8_t idx = 0;
+uint8_t byte_index = 0;
 struct packet packet;
 
 int (mouse_subscribe_int)(uint8_t *bit_no) {
@@ -39,12 +39,12 @@ int (mouse_write_cmd)(uint8_t cmd) {
 }
 
 void (mouse_sync_bytes)() {
-    if (idx == 0 && (byte & BIT(3))) {
-        packetBytes[idx] = byte;
-        idx++;
-    } else if (idx > 0) {
-        packetBytes[idx] = byte;
-        idx++;
+    if (byte_index == 0 && (byte & BIT(3))) {
+        packetBytes[byte_index] = byte;
+        byte_index++;
+    } else if (byte_index > 0) {
+        packetBytes[byte_index] = byte;
+        byte_index++;
     }
 }
 

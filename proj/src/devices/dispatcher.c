@@ -38,14 +38,18 @@ int unsubscribe_devices() {
     return 0;
 }
 
-int dispatcher(GameState *state) {
+int dispatcher() {
     int ipc_status;
     message msg;
     uint8_t r;
     
+    if (mouse_write_cmd(MOUSE_EN_DATA_REP)) return 1;
+
+    if (timer_set_frequency(0, 60)) return 1;
+
     if (subscribe_devices()) return 1;
 
-    while (true) {
+    while (scancode != KBC_BRK_ESC_KEY) {
         if ((r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
             printf("Error driver_receive failed with: %d\n", r);
             continue;
@@ -55,15 +59,15 @@ int dispatcher(GameState *state) {
             switch (_ENDPOINT_P(msg.m_source)) {
                 case HARDWARE:
                     if (msg.m_notify.interrupts & irq_set_timer) {
-                        timer_int_handler();
+                        timer_handler();
                     }
 
                     if (msg.m_notify.interrupts & irq_set_keyboard) {
-                        keyboard_ih();
+                        keyboard_handler();
                     }
 
                     if (msg.m_notify.interrupts & irq_set_mouse) {
-                        mouse_ih();
+                        mouse_handler();
                     }
 
                     break;
@@ -77,6 +81,33 @@ int dispatcher(GameState *state) {
 
     if (unsubscribe_devices()) return 1;
 
+    if (mouse_write_cmd(MOUSE_DIS_DATA_REP)) return 1;
+
     return 0;
 }
 
+void timer_handler() {
+    timer_int_handler();
+}
+
+void keyboard_handler() {
+    keyboard_ih();
+}
+
+void mouse_handler() {
+    mouse_ih();
+    mouse_sync_bytes();
+
+    if (byte_index == 3) {
+        mouse_parse_packet();
+        byte_index = 0;
+    }
+}
+
+void serial_port_handler() {
+    
+}
+
+void rtc_handler() {
+    
+}

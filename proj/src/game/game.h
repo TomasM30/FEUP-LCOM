@@ -3,17 +3,15 @@
 
 #include <lcom/lcf.h>
 
+#include "data_types.h"
 #include "../devices/dispatcher.h"
 
-typedef enum {
-    MENU,
-    GAME, 
-    EXIT
-} GameState;
+GameState state;
 
-static GameState state;
+int game_init();
 
+int game_run();
 
-
+int game_exit();
 
 #endif
