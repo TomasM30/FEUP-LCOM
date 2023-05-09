@@ -46,6 +46,10 @@ int16_t (get_vres)() {
     return vres;
 }
 
+uint8_t (get_bytes_per_pixel)() {
+    return bytes_per_pixel;
+}
+
 void (normalize_color)(uint32_t *color) {
     if (mode_info.BitsPerPixel != 32)
         *color &= BIT(mode_info.BitsPerPixel) - 1;

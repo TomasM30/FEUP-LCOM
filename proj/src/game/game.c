@@ -5,6 +5,14 @@ int game_init() {
 
     if (vg_start(VBE_864p_DC)) return 1;
 
+    load_sprites();
+
+    load_board();
+
+    if (draw_board()) return 1;
+
+    if (draw_pieces()) return 1;
+
     return 0;
 }
 

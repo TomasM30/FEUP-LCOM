@@ -1,5 +1,5 @@
 /* XPM */
-static char * C:\Users\duart\Desktop\LCOM\MINIX_LCOM\shared\g4\proj\src\imgs\pieces\bR_xpm[] = {
+static char *bR_xpm[] = {
 "108 108 375 2",
 "  	c None",
 ". 	c #000000",

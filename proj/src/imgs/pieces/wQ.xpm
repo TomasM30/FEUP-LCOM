@@ -1,5 +1,5 @@
 /* XPM */
-static char * C:\Users\duart\Desktop\LCOM\MINIX_LCOM\shared\g4\proj\src\imgs\pieces\wQ_xpm[] = {
+static char *wQ_xpm[] = {
 "108 108 591 2",
 "  	c None",
 ". 	c #000000",
