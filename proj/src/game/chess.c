@@ -45,29 +45,7 @@ int draw_pieces() {
             
             if (piece.type == EMPTY) continue;
 
-            switch (piece.type) {
-                case KING:
-                    if (draw_king(j * PX_PER_SQUARE, i * PX_PER_SQUARE, piece.color)) return 1;
-                    break;
-                case QUEEN:
-                    if (draw_queen(j * PX_PER_SQUARE, i * PX_PER_SQUARE, piece.color)) return 1;
-                    break;
-                case BISHOP:
-                    if (draw_bishop(j * PX_PER_SQUARE, i * PX_PER_SQUARE, piece.color)) return 1;
-                    break;
-                case KNIGHT:
-                    if (draw_knight(j * PX_PER_SQUARE, i * PX_PER_SQUARE, piece.color)) return 1;
-                    break;
-                case ROOK:
-                    if (draw_rook(j * PX_PER_SQUARE, i * PX_PER_SQUARE, piece.color)) return 1;
-                    break;
-                case PAWN:
-                    if (draw_pawn(j * PX_PER_SQUARE, i * PX_PER_SQUARE, piece.color)) return 1;
-                    break;
-
-                default:
-                    break; 
-            }
+            if (draw_piece(i, j, piece.color)) return 1;
         }
     }
 
@@ -75,16 +53,89 @@ int draw_pieces() {
 }
 
 void select_piece(int x, int y) {
+    int row = y / SQUARE_SIZE;
+    int col = x / SQUARE_SIZE;
 
+    if (row < 0 || row > 7 || col < 0 || col > 7) return;
 
+    Piece piece = board[row][col];
+
+    if (piece.type == EMPTY) return;
+
+    if (piece.color == WHITE && !white_turn) return;
+
+    if (piece.color == BLACK && white_turn) return;
+
+    sel_row = row;
+    sel_col = col;
+
+    selected = true;
+
+    return;
+}
+
+void deselect_piece() {
+    sel_row = -1;
+    sel_col = -1;
+
+    selected = false;
+}
+
+bool is_selected() {
+    return selected;
 }
 
 void move_piece(int xf, int yf) {
+    if (!selected) return;
 
+    int row = yf / SQUARE_SIZE;
+    int col = xf / SQUARE_SIZE;
+
+    if (row < 0 || row > 7 || col < 0 || col > 7) return;
+
+    if (row == sel_row && col == sel_col) return;
+
+    if (is_valid_move(row, col)) {
+        board[row][col] = board[sel_row][sel_col];
+        board[sel_row][sel_col] = (Piece) {EMPTY, UNDEFINED};
+        white_turn = !white_turn;
+    }
+
+    deselect_piece();
+}
+
+bool is_valid_move(int row, int col) {
+    Piece piece = board[sel_row][sel_col];
+
+    switch (piece.type) {
+    
+        default:
+            return false;
+    }
 }
 
 
 /* Auxiliary drawing functions */
+
+int draw_piece(int i, int j, uint32_t color) {
+    switch (board[i][j].type) {
+        case KING:
+            return draw_king(j * SQUARE_SIZE, i * SQUARE_SIZE, color);
+        case QUEEN:
+            return draw_queen(j * SQUARE_SIZE, i * SQUARE_SIZE, color);
+        case BISHOP:
+            return draw_bishop(j * SQUARE_SIZE, i * SQUARE_SIZE, color);
+        case KNIGHT:
+            return draw_knight(j * SQUARE_SIZE, i * SQUARE_SIZE, color);
+        case ROOK:
+            return draw_rook(j * SQUARE_SIZE, i * SQUARE_SIZE, color);
+        case PAWN:  
+            return draw_pawn(j * SQUARE_SIZE, i * SQUARE_SIZE, color);
+
+        default:
+            return 0;
+    }
+}
 
 int draw_king(int x, int y, uint32_t color) {
     if (color == BLACK) {

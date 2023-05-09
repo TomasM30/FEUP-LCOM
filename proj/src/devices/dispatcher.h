@@ -11,7 +11,7 @@
 #include "rtc/rtc.h"
 
 #include "../game/game.h"
-
+#include "../game/chess.h"
 
 static uint8_t irq_set_timer, irq_set_keyboard, irq_set_mouse, irq_set_serial_port, irq_set_rtc;
 extern int timer_counter;

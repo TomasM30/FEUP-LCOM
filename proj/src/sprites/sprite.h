@@ -18,10 +18,9 @@
 #include "../imgs/pieces/wQ.xpm"
 #include "../imgs/pieces/wR.xpm"
 
-#define PX_PER_SQUARE 108
+#define SQUARE_SIZE 108
 
 typedef struct {
-    uint16_t x, y;
     uint16_t height, width;
     uint32_t *colors;
 } Sprite;

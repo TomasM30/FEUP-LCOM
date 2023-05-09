@@ -29,4 +29,6 @@ typedef struct {
     Color color;
 } Piece;
 
+
+
 #endif
