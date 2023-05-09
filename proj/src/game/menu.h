@@ -3,6 +3,6 @@
 
 #include <lcom/lcf.h>
 
-
+int draw_menu();
 
 #endif

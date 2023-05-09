@@ -12,7 +12,7 @@ PROG=proj
 .PATH: ${.CURDIR}/game/
 
 # source code files to be compiled
-SRCS = proj.c utils.c kbc.c timer.c keyboard.c mouse.c video.c serial_port.c rtc.c game.c dispatcher.c menu.c
+SRCS = proj.c utils.c kbc.c timer.c keyboard.c mouse.c video.c serial_port.c rtc.c dispatcher.c sprite.c game.c menu.c chess.c 
 
 # additional compilation flags
 # "-Wall -Wextra -Werror -I . -std=c11 -Wno-unused-parameter" are already set

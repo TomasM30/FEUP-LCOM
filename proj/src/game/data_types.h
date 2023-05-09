@@ -4,7 +4,7 @@
 typedef enum {
     MENU, 
     GAME,
-    EXIT
+    QUIT
 } GameState;
 
 
@@ -19,6 +19,7 @@ typedef enum {
 } Type;
 
 typedef enum {
+    UNDEFINED,
     WHITE,
     BLACK
 } Color;
