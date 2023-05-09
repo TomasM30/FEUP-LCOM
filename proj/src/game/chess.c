@@ -40,59 +40,33 @@ int draw_board() {
 
 int draw_pieces() {
     for (int i = 0; i < 8; i++) {
-        for (int j = 0; j < 8 ; j++) {
+        for (int j = 0; j < 8; j++) {
             Piece piece = board[i][j];
+            
             if (piece.type == EMPTY) continue;
 
             switch (piece.type) {
-                case PAWN:
-                    if (piece.color == BLACK) {
-                        if (draw_sprite(bP, j * 108, i * 108)) return 1;
-                    } else {
-                        if (draw_sprite(wP, j * 108, i * 108)) return 1;
-                    }
-                    break;
-                case ROOK:
-                    if (piece.color == BLACK) {
-                        if (draw_sprite(bR, j * 108, i * 108)) return 1;
-                    } else {
-                        if (draw_sprite(wR, j * 108, i * 108)) return 1;
-                    }
-                    break;
-                case KNIGHT:
-                    if (piece.color == BLACK) {
-                        if (draw_sprite(bN, j * 108, i * 108)) return 1;
-                    } else {
-                        if (draw_sprite(wN, j * 108, i * 108)) return 1;
-                    }
-                    break;
-                case BISHOP:
-                    if (piece.color == BLACK) {
-                        if (draw_sprite(bB, j * 108, i * 108)) return 1;
-                    } else {
-                        if (draw_sprite(wB, j * 108, i * 108)) return 1;
-                    }
+                case KING:
+                    if (draw_king(j * PX_PER_SQUARE, i * PX_PER_SQUARE, piece.color)) return 1;
                     break;
                 case QUEEN:
-                    if (piece.color == BLACK) {
-                        if (draw_sprite(bQ, j * 108, i * 108)) return 1;
-                    } else {
-                        if (draw_sprite(wQ, j * 108, i * 108)) return 1;
-                    }
+                    if (draw_queen(j * PX_PER_SQUARE, i * PX_PER_SQUARE, piece.color)) return 1;
                     break;
-                case KING:
-                    if (piece.color == BLACK) {
-                        if (draw_sprite(bK, j * 108, i * 108)) return 1;
-                    } else {
-                        if (draw_sprite(wK, j * 108, i * 108)) return 1;
-                    }
+                case BISHOP:
+                    if (draw_bishop(j * PX_PER_SQUARE, i * PX_PER_SQUARE, piece.color)) return 1;
                     break;
-                case EMPTY:
-                    draw_sprite(wP, j * 108, i * 108);
+                case KNIGHT:
+                    if (draw_knight(j * PX_PER_SQUARE, i * PX_PER_SQUARE, piece.color)) return 1;
                     break;
-                
+                case ROOK:
+                    if (draw_rook(j * PX_PER_SQUARE, i * PX_PER_SQUARE, piece.color)) return 1;
+                    break;
+                case PAWN:
+                    if (draw_pawn(j * PX_PER_SQUARE, i * PX_PER_SQUARE, piece.color)) return 1;
+                    break;
+
                 default:
-                    break;
+                    break; 
             }
         }
     }
@@ -100,10 +74,74 @@ int draw_pieces() {
     return 0;
 }
 
+void select_piece(int x, int y) {
 
 
+}
+
+void move_piece(int xf, int yf) {
+
+}
 
 
+/* Auxiliary drawing functions */
 
+int draw_king(int x, int y, uint32_t color) {
+    if (color == BLACK) {
+        if (draw_sprite(bK, x, y)) return 1;
+    } else {
+        if (draw_sprite(wK, x, y)) return 1;
+    }
 
+    return 0;
+}
 
+int draw_queen(int x, int y, uint32_t color) {
+    if (color == BLACK) {
+        if (draw_sprite(bQ, x, y)) return 1;
+    } else {
+        if (draw_sprite(wQ, x, y)) return 1;
+    }
+
+    return 0;
+}
+
+int draw_bishop(int x, int y, uint32_t color) {
+    if (color == BLACK) {
+        if (draw_sprite(bB, x, y)) return 1;
+    } else {
+        if (draw_sprite(wB, x, y)) return 1;
+    }
+
+    return 0;
+}
+
+int draw_knight(int x, int y, uint32_t color) {
+    if (color == BLACK) {
+        if (draw_sprite(bN, x, y)) return 1;
+    } else {
+        if (draw_sprite(wN, x, y)) return 1;
+    }
+
+    return 0;
+}
+
+int draw_rook(int x, int y, uint32_t color) {
+    if (color == BLACK) {
+        if (draw_sprite(bR, x, y)) return 1;
+    } else {
+        if (draw_sprite(wR, x, y)) return 1;
+    }
+
+    return 0;
+}
+
+int draw_pawn(int x, int y, uint32_t color) {
+    if (color == BLACK) {
+        if (draw_sprite(bP, x, y)) return 1;
+    } else {
+        if (draw_sprite(wP, x, y)) return 1;
+    }
+
+    return 0;
+}

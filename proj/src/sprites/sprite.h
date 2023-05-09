@@ -18,12 +18,13 @@
 #include "../imgs/pieces/wQ.xpm"
 #include "../imgs/pieces/wR.xpm"
 
+#define PX_PER_SQUARE 108
 
 typedef struct {
+    uint16_t x, y;
     uint16_t height, width;
     uint32_t *colors;
 } Sprite;
-
 
 Sprite *board_img;
 Sprite *bB;
@@ -39,6 +40,7 @@ Sprite *wP;
 Sprite *wQ;
 Sprite *wR;
 
+Sprite* cursor;
 
 Sprite *create_sprite(xpm_map_t xpm);
 
@@ -47,5 +49,7 @@ void destroy_sprite(Sprite *sp);
 int draw_sprite(Sprite *sp, int x, int y);
 
 void load_sprites();
+
+void dump_sprites();
 
 #endif

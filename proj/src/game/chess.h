@@ -20,8 +20,8 @@ extern Sprite *wP;
 extern Sprite *wQ;
 extern Sprite *wR;
 
-
 Piece board[8][8];
+int selected_x, selected_y;
 
 
 void load_board();
@@ -33,5 +33,17 @@ int draw_pieces();
 void select_piece(int x, int y);
 
 void move_piece(int xf, int yf);
+
+int draw_king(int x, int y, uint32_t color);
+
+int draw_queen(int x, int y, uint32_t color);
+
+int draw_bishop(int x, int y, uint32_t color);
+
+int draw_knight(int x, int y, uint32_t color);
+
+int draw_rook(int x, int y, uint32_t color);
+
+int draw_pawn(int x, int y, uint32_t color);
 
 #endif

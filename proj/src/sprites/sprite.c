@@ -14,6 +14,9 @@ Sprite *create_sprite(xpm_map_t xpm) {
     sp->width = img.width;
     sp->height = img.height;
 
+    sp->x = 0;
+    sp->y = 0;
+
     return sp;
 }
 
@@ -55,3 +58,18 @@ void load_sprites() {
     wR = create_sprite((xpm_map_t) wR_xpm);
 }
 
+void dump_sprites() {
+    destroy_sprite(board_img);
+    destroy_sprite(bB);
+    destroy_sprite(bK);
+    destroy_sprite(bN);
+    destroy_sprite(bP);
+    destroy_sprite(bQ);
+    destroy_sprite(bR);
+    destroy_sprite(wB);
+    destroy_sprite(wK);
+    destroy_sprite(wN);
+    destroy_sprite(wP);
+    destroy_sprite(wQ);
+    destroy_sprite(wR);
+}

@@ -27,5 +27,7 @@ int game_run() {
 int game_exit() {
     if (vg_exit()) return 1;
 
+    dump_sprites();
+
     return 0;
 }
