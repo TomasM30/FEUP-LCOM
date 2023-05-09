@@ -1,8 +1,6 @@
 #include "game.h"
 
 int game_init() {
-    state = MENU;
-
     if (vg_start(VBE_864p_DC)) return 1;
 
     load_sprites();

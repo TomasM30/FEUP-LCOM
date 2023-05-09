@@ -24,6 +24,7 @@ typedef struct {
     uint32_t *colors;
 } Sprite;
 
+
 Sprite *board_img;
 Sprite *bB;
 Sprite *bK;

@@ -10,6 +10,7 @@ static uint8_t *video_mem;
 static uint16_t hres, vres;
 static uint8_t bytes_per_pixel;
 
+
 int (vg_start)(uint16_t mode);
 
 uint16_t (get_hres)();

@@ -22,7 +22,6 @@ extern Sprite *wR;
 
 
 Piece board[8][8];
-int selected_x, selected_y;
 
 
 void load_board();

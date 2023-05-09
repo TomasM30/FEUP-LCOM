@@ -90,6 +90,7 @@ int draw_pieces() {
                 case EMPTY:
                     draw_sprite(wP, j * 108, i * 108);
                     break;
+                
                 default:
                     break;
             }

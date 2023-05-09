@@ -54,3 +54,4 @@ void load_sprites() {
     wQ = create_sprite((xpm_map_t) wQ_xpm);
     wR = create_sprite((xpm_map_t) wR_xpm);
 }
+
