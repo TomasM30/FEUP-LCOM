@@ -28,6 +28,7 @@ void destroy_sprite(Sprite *sp) {
 }
 
 int draw_sprite(Sprite *sp, int x, int y) {
+
     for (int h = 0; h < sp->height; h++) {
         for (int w = 0; w < sp->width; w++) {
             if (sp->colors[h * sp->width + w] != xpm_transparency_color(XPM_8_8_8_8)) {
@@ -35,7 +36,6 @@ int draw_sprite(Sprite *sp, int x, int y) {
             }
         }
     }
-
     return 0;
 }
 

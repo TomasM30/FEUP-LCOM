@@ -69,7 +69,7 @@ int (vg_draw_pixel)(uint16_t x, uint16_t y, uint32_t color) {
 
 int (vg_copy_buffer)() {
     if (memcpy(video_mem, double_buffer, hres * vres * bytes_per_pixel) == NULL) return 1;
-    memset(double_buffer, 0, hres * vres * bytes_per_pixel);
+    //memset(double_buffer, 0, hres * vres * bytes_per_pixel); alterar para funcionar so com os movimentos
     return 0;
 }
 

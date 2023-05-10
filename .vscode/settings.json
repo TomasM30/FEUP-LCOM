@@ -2,6 +2,9 @@
     "C_Cpp.errorSquiggles": "disabled",
     "files.associations": {
         "*.xpm": "c",
-        "lcf.h": "c"
+        "lcf.h": "c",
+        "video.h": "c",
+        "math.h": "c",
+        "chess.h": "c"
     }
 }
