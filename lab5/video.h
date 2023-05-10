@@ -10,7 +10,6 @@ static uint8_t *buffer;
 
 static uint16_t hres, vres;
 static uint8_t bytes_per_pixel;
-static bool double_buffering = false;
 
 int (vg_start)(uint16_t mode);
 
