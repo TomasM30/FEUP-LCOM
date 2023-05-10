@@ -7,7 +7,6 @@
 static vbe_mode_info_t mode_info;
 static uint8_t *video_mem;	
 static uint8_t *double_buffer;
-int double_buffering = 0;
 
 static uint16_t hres, vres;
 static uint8_t bytes_per_pixel;

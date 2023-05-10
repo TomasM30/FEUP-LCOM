@@ -63,24 +63,13 @@ int (vg_draw_pixel)(uint16_t x, uint16_t y, uint32_t color) {
     if (x >= hres || y >= vres) return 1;
 
     size_t idx = (hres * y + x) * bytes_per_pixel;
-
-    if(double_buffering == 0){
-        if (memcpy(&video_mem[idx], &color, bytes_per_pixel) == NULL) return 1;
-    }
-    else{
-        if (memcpy(&double_buffer[idx], &color, bytes_per_pixel) == NULL) return 1;
-    }
+    if (memcpy(&double_buffer[idx], &color, bytes_per_pixel) == NULL) return 1;
     return 0;
 }
 
-int (vg_flip_buffer()){
-    if (double_buffering == 0){
-        memcpy(video_mem, double_buffer, hres * vres * bytes_per_pixel);
-        double_buffering = 1;
-    } else {
-        memcpy(double_buffer, video_mem, hres * vres * bytes_per_pixel);
-        double_buffering = 0;
-    }
+int (vg_copy_buffer)() {
+    if (memcpy(video_mem, double_buffer, hres * vres * bytes_per_pixel) == NULL) return 1;
+    memset(double_buffer, 0, hres * vres * bytes_per_pixel);
     return 0;
 }
 
