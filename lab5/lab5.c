@@ -172,7 +172,7 @@ int (video_test_move)(xpm_map_t xpm, uint16_t xi, uint16_t yi, uint16_t xf, uint
 						//printf("xi: %d, yi: %d\n", xi, yi);
 						timer_int_handler();
 						if (timer_counter % (sys_hz() / fr_rate) == 0){
-							if (vg_erase_xpm(xpm, xi, yi) != 0) return 1;
+							//if (vg_erase_xpm(xpm, xi, yi) != 0) return 1;
 
 							if (dir == vertical) {
 								yi += speed;
@@ -181,11 +181,10 @@ int (video_test_move)(xpm_map_t xpm, uint16_t xi, uint16_t yi, uint16_t xf, uint
 								xi += speed;
 								if (xi > xf) xi = xf;
 							}
-
 							if (vg_display_xpm(xpm, xi, yi) != 0) return 1;
+							vg_copy_buffer();
 						}
 					}
-
 					break;
 				default:
 					break;

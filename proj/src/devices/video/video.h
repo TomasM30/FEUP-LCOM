@@ -6,11 +6,13 @@
 
 static vbe_mode_info_t mode_info;
 static uint8_t *video_mem;	
-
+static uint8_t *double_buffer;
 static uint16_t hres, vres;
 static uint8_t bytes_per_pixel;
 
 int (vg_start)(uint16_t mode);
+
+int (vg_copy_buffer)();
 
 uint16_t (get_hres)();
 

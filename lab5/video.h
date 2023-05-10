@@ -5,7 +5,8 @@
 #include "vbe.h"
 
 static vbe_mode_info_t mode_info;
-static uint8_t *video_mem;	
+static uint8_t *video_mem;
+static uint8_t *buffer;
 
 static uint16_t hres, vres;
 static uint8_t bytes_per_pixel;
@@ -14,6 +15,7 @@ int (vg_start)(uint16_t mode);
 
 uint16_t (get_hres)();
 
+int (vg_copy_buffer)();
 int16_t (get_vres)();
 
 void (normalize_color)(uint32_t *color);

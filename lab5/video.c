@@ -1,6 +1,15 @@
 #include "video.h"
 #include "math.h"
 
+
+uint16_t (get_hres)() {
+    return hres;
+}
+
+int16_t (get_vres)() {
+    return vres;
+}
+
 int (vg_start)(uint16_t mode) {
     memset(&mode_info, 0, sizeof(mode_info));
     if (vbe_get_mode_info(mode, &mode_info) != 0) return 1;
@@ -22,7 +31,9 @@ int (vg_start)(uint16_t mode) {
 
     video_mem = vm_map_phys(SELF, (void *) mr.mr_base, vram_size);
 
-    if (video_mem == MAP_FAILED) return 1;
+    if (video_mem == MAP_FAILED ) return 1;
+
+    buffer = malloc(frame_size);
     
     reg86_t reg86;
     memset(&reg86, 0, sizeof(reg86_t));
@@ -38,14 +49,6 @@ int (vg_start)(uint16_t mode) {
     return 0;
 }
 
-uint16_t (get_hres)() {
-    return hres;
-}
-
-int16_t (get_vres)() {
-    return vres;
-}
-
 void (normalize_color)(uint32_t *color) {
     if (mode_info.BitsPerPixel != 32)
         *color &= BIT(mode_info.BitsPerPixel) - 1;
@@ -56,9 +59,14 @@ int (vg_draw_pixel)(uint16_t x, uint16_t y, uint32_t color) {
     if (x >= hres || y >= vres) return 1;
 
     size_t idx = (hres * y + x) * bytes_per_pixel;
+    
+    if (memcpy(&buffer[idx], &color, bytes_per_pixel) == NULL) return 1;
+    return 0;
+}
 
-    if (memcpy(&video_mem[idx], &color, bytes_per_pixel) == NULL) return 1;
-
+int (vg_copy_buffer)() {
+    if (memcpy(video_mem, buffer, hres * vres * bytes_per_pixel) == NULL) return 1;
+    memset(buffer, 0, hres * vres * bytes_per_pixel);
     return 0;
 }
 

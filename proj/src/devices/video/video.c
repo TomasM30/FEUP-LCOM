@@ -13,7 +13,7 @@ int (vg_start)(uint16_t mode) {
 
     struct minix_mem_range mr;
     unsigned int vram_base = mode_info.PhysBasePtr; 
-    unsigned int vram_size = frame_size;  
+    unsigned int vram_size = frame_size*2;  
                         
     mr.mr_base = (phys_bytes) vram_base;
     mr.mr_limit = mr.mr_base + vram_size;
@@ -23,6 +23,9 @@ int (vg_start)(uint16_t mode) {
     video_mem = vm_map_phys(SELF, (void *) mr.mr_base, vram_size);
 
     if (video_mem == MAP_FAILED) return 1;
+
+    double_buffer = malloc(frame_size);
+    if (double_buffer == NULL) return 1;
     
     reg86_t reg86;
     memset(&reg86, 0, sizeof(reg86_t));
@@ -60,9 +63,13 @@ int (vg_draw_pixel)(uint16_t x, uint16_t y, uint32_t color) {
     if (x >= hres || y >= vres) return 1;
 
     size_t idx = (hres * y + x) * bytes_per_pixel;
+    if (memcpy(&double_buffer[idx], &color, bytes_per_pixel) == NULL) return 1;
+    return 0;
+}
 
-    if (memcpy(&video_mem[idx], &color, bytes_per_pixel) == NULL) return 1;
-
+int (vg_copy_buffer)() {
+    if (memcpy(video_mem, double_buffer, hres * vres * bytes_per_pixel) == NULL) return 1;
+    //memset(double_buffer, 0, hres * vres * bytes_per_pixel); alterar para funcionar so com os movimentos
     return 0;
 }
 
