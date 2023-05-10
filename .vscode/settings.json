@@ -1,6 +1,7 @@
 {
     "C_Cpp.errorSquiggles": "disabled",
     "files.associations": {
-        "*.xpm": "c"
+        "*.xpm": "c",
+        "lcf.h": "c"
     }
 }
