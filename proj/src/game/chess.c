@@ -33,10 +33,7 @@ void load_board() {
 }
 
 int draw_board() {
-    if (draw_sprite(board_img, 0, 0)) return 1;
-
-    vg_copy_buffer();
-    
+    if (draw_sprite(board_img, 0, 0)) return 1;    
     return 0;
 }
 
@@ -72,7 +69,6 @@ int draw_pieces() {
             if (draw_piece(i, j, piece.color)) return 1;
         }
     }
-    vg_copy_buffer();
 
     return 0;
 }
