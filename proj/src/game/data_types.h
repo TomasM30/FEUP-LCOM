@@ -29,6 +29,9 @@ typedef struct {
     Color color;
 } Piece;
 
-
+typedef struct {
+    int row;
+    int col;
+} Position;
 
 #endif

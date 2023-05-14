@@ -30,6 +30,8 @@ void load_board();
 
 int draw_board();
 
+int draw_piece(int i, int j, uint32_t color);
+
 int draw_pieces();
 
 void select_piece(int x, int y);
@@ -42,7 +44,25 @@ void move_piece(int xf, int yf);
 
 bool is_valid_move(int xf, int yf);
 
-int draw_piece(int i, int j, uint32_t color);
+Position *get_valid_moves(int *size);
+
+
+/* Piece movement functions */
+
+Position *get_valid_moves_king(int *size);
+
+Position *get_valid_moves_queen(int *size);
+
+Position *get_valid_moves_bishop(int *size);
+
+Position *get_valid_moves_knight(int *size);
+
+Position *get_valid_moves_rook(int *size);
+
+Position *get_valid_moves_pawn(int *size);
+
+
+/* Auxiliary drawing functions */
 
 int draw_king(int x, int y, uint32_t color);
 

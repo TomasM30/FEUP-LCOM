@@ -34,8 +34,32 @@ void load_board() {
 
 int draw_board() {
     if (draw_sprite(board_img, 0, 0)) return 1;
+
     vg_copy_buffer();
+    
     return 0;
+}
+
+int draw_piece(int i, int j, uint32_t color) {
+    Piece piece = board[i][j];
+
+    switch (piece.type) {
+        case KING:
+            return draw_king(j * SQUARE_SIZE, i * SQUARE_SIZE, color);
+        case QUEEN:
+            return draw_queen(j * SQUARE_SIZE, i * SQUARE_SIZE, color);
+        case BISHOP:
+            return draw_bishop(j * SQUARE_SIZE, i * SQUARE_SIZE, color);
+        case KNIGHT:
+            return draw_knight(j * SQUARE_SIZE, i * SQUARE_SIZE, color);
+        case ROOK:
+            return draw_rook(j * SQUARE_SIZE, i * SQUARE_SIZE, color);
+        case PAWN:  
+            return draw_pawn(j * SQUARE_SIZE, i * SQUARE_SIZE, color);
+
+        default:
+            return 0;
+    }
 }
 
 int draw_pieces() {
@@ -49,7 +73,6 @@ int draw_pieces() {
         }
     }
     vg_copy_buffer();
-
 
     return 0;
 }
@@ -81,6 +104,8 @@ void deselect_piece() {
     sel_col = -1;
 
     selected = false;
+
+    return;
 }
 
 bool is_selected() {
@@ -104,40 +129,253 @@ void move_piece(int xf, int yf) {
     }
 
     deselect_piece();
+
+    return;
 }
 
 bool is_valid_move(int row, int col) {
-    Piece piece = board[sel_row][sel_col];
+    int size;
+    Position *valid_moves = get_valid_moves(&size);
 
-    switch (piece.type) {
-    
-        default:
-            return false;
+    for (int i = 0; i < size; i++) {
+        if (valid_moves[i].row == row && valid_moves[i].col == col) {
+            free(valid_moves);
+            return true;
+        }
     }
+
+    return false;
+}
+
+Position *get_valid_moves(int *size) {
+    Piece sel_piece = board[sel_row][sel_col];
+
+    switch (sel_piece.type) {
+        case KING:
+            // return get_valid_king_moves(size);
+        case QUEEN:
+            // return get_valid_queen_moves(size);
+        case BISHOP:
+            // return get_valid_bishop_moves(size);
+        case KNIGHT:
+            // return get_valid_knight_moves(size);
+        case ROOK:
+            // return get_valid_rook_moves(size);
+        case PAWN:
+            // return get_valid_pawn_moves(size);
+
+        default:
+            return NULL;
+    }
+}
+
+/* Piece movement functions */
+
+Position *get_valid_king_moves(int *size) {
+    Position *moves = malloc(8 * sizeof(Position));
+
+    int rows[] = {-1, -1, -1, 0, 0, 1, 1, 1};
+    int cols[] = {-1, 0, 1, -1, 1, -1, 0, 1};
+
+    int count = 0;
+
+    for (int i = 0; i < 8; i++) {
+        int row = sel_row + rows[i];
+        int col = sel_col + cols[i];
+
+        if (row < 0 || row > 7 || col < 0 || col > 7) continue;
+
+        if (board[row][col].type == EMPTY || board[row][col].color != board[sel_row][sel_col].color) {
+            moves[count++] = (Position) {row, col};
+        }
+    }
+
+    *size = count;
+
+    return moves;
+}
+
+Position *get_valid_queen_moves(int *size) {
+    Position *moves = malloc(27 * sizeof(Position));
+
+    int rows[] = {-1, -1, -1, 0, 0, 1, 1, 1};
+    int cols[] = {-1, 0, 1, -1, 1, -1, 0, 1};
+
+    int count = 0;
+
+    for (int i = 0; i < 8; i++) {
+        int row = sel_row + rows[i];
+        int col = sel_col + cols[i];
+
+        while (row >= 0 && row <= 7 && col >= 0 && col <= 7) {
+            if (board[row][col].type == EMPTY) {
+                moves[count++] = (Position) {row, col};
+            } else if (board[row][col].color != board[sel_row][sel_col].color) {
+                moves[count++] = (Position) {row, col};
+                break;
+            } else {
+                break;
+            }
+
+            row += rows[i];
+            col += cols[i];
+        }
+    }
+
+    *size = count;
+
+    return moves;
+}
+
+Position *get_valid_bishop_moves(int *size) {
+    Position *moves = malloc(13 * sizeof(Position));
+
+    int rows[] = {-1, -1, 1, 1};
+    int cols[] = {-1, 1, -1, 1};
+
+    int count = 0;
+
+    for (int i = 0; i < 4; i++) {
+        int row = sel_row + rows[i];
+        int col = sel_col + cols[i];
+
+        while (row >= 0 && row <= 7 && col >= 0 && col <= 7) {
+            if (board[row][col].type == EMPTY) {
+                moves[count++] = (Position) {row, col};
+            } else if (board[row][col].color != board[sel_row][sel_col].color) {
+                moves[count++] = (Position) {row, col};
+                break;
+            } else {
+                break;
+            }
+
+            row += rows[i];
+            col += cols[i];
+        }
+    }
+
+    *size = count;
+
+    return moves;
+}
+
+
+Position *get_valid_knight_moves(int *size) {
+    Position *moves = malloc(8 * sizeof(Position));
+
+    int rows[] = {-2, -2, -1, -1, 1, 1, 2, 2};
+    int cols[] = {-1, 1, -2, 2, -2, 2, -1, 1};
+
+    int count = 0;
+
+    for (int i = 0; i < 8; i++) {
+        int row = sel_row + rows[i];
+        int col = sel_col + cols[i];
+
+        if (row < 0 || row > 7 || col < 0 || col > 7) continue;
+
+        if (board[row][col].type == EMPTY || board[row][col].color != board[sel_row][sel_col].color) {
+            moves[count++] = (Position) {row, col};
+        }
+    }
+
+    *size = count;
+
+    return moves;
+}
+
+Position *get_valid_rook_moves(int *size) {
+    Position *moves = malloc(14 * sizeof(Position));
+
+    int rows[] = {-1, -1, 0, 0, 1, 1};
+    int cols[] = {0, 1, -1, 1, 0, 1};
+
+    int count = 0;
+
+    for (int i = 0; i < 6; i++) {
+        int row = sel_row + rows[i];
+        int col = sel_col + cols[i];
+
+        while (row >= 0 && row <= 7 && col >= 0 && col <= 7) {
+            if (board[row][col].type == EMPTY) {
+                moves[count++] = (Position) {row, col};
+            } else if (board[row][col].color != board[sel_row][sel_col].color) {
+                moves[count++] = (Position) {row, col};
+                break;
+            } else {
+                break;
+            }
+
+            row += rows[i];
+            col += cols[i];
+        }
+    }
+
+    *size = count;
+
+    return moves;
+}
+
+Position *get_valid_pawn_moves(int *size) {
+    Position *moves = malloc(4 * sizeof(Position));
+
+    int count = 0;
+
+    if (sel_row == 1 && board[sel_row][sel_col].color == BLACK) {
+        if (board[sel_row + 1][sel_col].type == EMPTY) {
+            moves[count++] = (Position) {sel_row + 1, sel_col};
+
+            if (board[sel_row + 2][sel_col].type == EMPTY) {
+                moves[count++] = (Position) {sel_row + 2, sel_col};
+            }
+        }
+    }
+
+    if (sel_row == 6 && board[sel_row][sel_col].color == WHITE) {
+        if (board[sel_row - 1][sel_col].type == EMPTY) {
+            moves[count++] = (Position) {sel_row - 1, sel_col};
+
+            if (board[sel_row - 2][sel_col].type == EMPTY) {
+                moves[count++] = (Position) {sel_row - 2, sel_col};
+            }
+        }
+    }
+
+    if (board[sel_row][sel_col].color == BLACK) {
+        if (board[sel_row + 1][sel_col].type == EMPTY) {
+            moves[count++] = (Position) {sel_row + 1, sel_col};
+        }
+
+        if (board[sel_row + 1][sel_col - 1].type != EMPTY && board[sel_row + 1][sel_col - 1].color != board[sel_row][sel_col].color) {
+            moves[count++] = (Position) {sel_row + 1, sel_col - 1};
+        }
+
+        if (board[sel_row + 1][sel_col + 1].type != EMPTY && board[sel_row + 1][sel_col + 1].color != board[sel_row][sel_col].color) {
+            moves[count++] = (Position) {sel_row + 1, sel_col + 1};
+        }
+    }
+
+    if (board[sel_row][sel_col].color == WHITE) {
+        if (board[sel_row - 1][sel_col].type == EMPTY) {
+            moves[count++] = (Position) {sel_row - 1, sel_col};
+        }
+
+        if (board[sel_row - 1][sel_col - 1].type != EMPTY && board[sel_row - 1][sel_col - 1].color != board[sel_row][sel_col].color) {
+            moves[count++] = (Position) {sel_row - 1, sel_col - 1};
+        }
+
+        if (board[sel_row - 1][sel_col + 1].type != EMPTY && board[sel_row - 1][sel_col + 1].color != board[sel_row][sel_col].color) {
+            moves[count++] = (Position) {sel_row - 1, sel_col + 1};
+        }
+    }
+
+    *size = count;
+
+    return moves;
 }
 
 
 /* Auxiliary drawing functions */
-
-int draw_piece(int i, int j, uint32_t color) {
-    switch (board[i][j].type) {
-        case KING:
-            return draw_king(j * SQUARE_SIZE, i * SQUARE_SIZE, color);
-        case QUEEN:
-            return draw_queen(j * SQUARE_SIZE, i * SQUARE_SIZE, color);
-        case BISHOP:
-            return draw_bishop(j * SQUARE_SIZE, i * SQUARE_SIZE, color);
-        case KNIGHT:
-            return draw_knight(j * SQUARE_SIZE, i * SQUARE_SIZE, color);
-        case ROOK:
-            return draw_rook(j * SQUARE_SIZE, i * SQUARE_SIZE, color);
-        case PAWN:  
-            return draw_pawn(j * SQUARE_SIZE, i * SQUARE_SIZE, color);
-
-        default:
-            return 0;
-    }
-}
 
 int draw_king(int x, int y, uint32_t color) {
     if (color == BLACK) {
