@@ -6,14 +6,15 @@
 #include "data_types.h"
 #include "menu.h"
 #include "chess.h"
+#include "clock.h"
 #include "../devices/dispatcher.h"
 
 GameState state;
 
-int game_init();
+int init_game();
 
-int game_run();
+int run_game();
 
-int game_exit();
+int exit_game();
 
 #endif

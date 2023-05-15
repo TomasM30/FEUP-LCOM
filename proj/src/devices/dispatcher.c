@@ -16,6 +16,10 @@ int subscribe_devices() {
         return 1;
     }
 
+    // subscribe serial port interrupts
+
+    // subscribe rtc interrupts
+
     return 0;
 }
 
@@ -34,6 +38,10 @@ int unsubscribe_devices() {
         printf("Error unsubscribing mouse interrupts\n");
         return 1;
     }
+
+    // unsubscribe serial port interrupts
+
+    // unsubscribe rtc interrupts
 
     return 0;
 }
@@ -68,6 +76,14 @@ int dispatcher() {
 
                     if (msg.m_notify.interrupts & irq_set_mouse) {
                         mouse_handler();
+                    }
+
+                    if (msg.m_notify.interrupts & irq_set_serial_port) {
+                        serial_port_handler();
+                    }
+
+                    if (msg.m_notify.interrupts & irq_set_rtc) {
+                        rtc_handler();
                     }
 
                     break;
@@ -116,7 +132,6 @@ void mouse_handler() {
         // if (state == MENU)
 
         // if (state == GAME)
-
         if (packet.lb) {
             if (is_selected()) {
                 move_piece(mouse_x, mouse_y);

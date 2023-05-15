@@ -7,31 +7,9 @@ typedef enum {
     QUIT
 } GameState;
 
-
-typedef enum {
-    EMPTY,
-    KING,
-    QUEEN,
-    BISHOP,
-    KNIGHT,
-    ROOK,
-    PAWN
-} Type;
-
-typedef enum {
-    UNDEFINED,
-    WHITE,
-    BLACK
-} Color;
-
 typedef struct {
-    Type type;
-    Color color;
-} Piece;
-
-typedef struct {
-    int row;
-    int col;
-} Position;
+    int minutes;
+    int seconds;
+} Time;
 
 #endif

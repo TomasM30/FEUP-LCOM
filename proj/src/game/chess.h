@@ -2,9 +2,34 @@
 #define CHESS_H
 
 #include <lcom/lcf.h>
-#include "data_types.h"
 #include "../devices/video/video.h"
 #include "../sprites/sprite.h"
+
+typedef enum {
+    EMPTY,
+    KING,
+    QUEEN,
+    BISHOP,
+    KNIGHT,
+    ROOK,
+    PAWN
+} Type;
+
+typedef enum {
+    UNDEFINED,
+    WHITE,
+    BLACK
+} Color;
+
+typedef struct {
+    Type type;
+    Color color;
+} Piece;
+
+typedef struct {
+    int row;
+    int col;
+} Position;
 
 extern Sprite *board_img;
 extern Sprite *bB; 

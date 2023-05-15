@@ -1,6 +1,6 @@
 #include "game.h"
 
-int game_init() {
+int init_game() {
     if (vg_start(VBE_864p_DC)) return 1;
 
     load_sprites();
@@ -10,17 +10,17 @@ int game_init() {
     return 0;
 }
 
-int game_run() {
-    if (game_init()) return 1;
+int run_game() {
+    if (init_game()) return 1;
     
     if (dispatcher()) return 1;
 
-    if (game_exit()) return 1;
+    if (exit_game()) return 1;
 
     return 0;
 }
 
-int game_exit() {
+int exit_game() {
     if (vg_exit()) return 1;
 
     dump_sprites();

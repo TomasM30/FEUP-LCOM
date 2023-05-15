@@ -19,7 +19,7 @@ int main(int argc, char *argv[]) {
 }
 
 int (proj_main_loop)(int argc, char *argv[]) {
-    if (game_run()) return 1;
+    if (run_game()) return 1;
     
     return 0;
 }
