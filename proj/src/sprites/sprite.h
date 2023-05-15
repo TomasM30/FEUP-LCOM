@@ -18,6 +18,8 @@
 #include "../imgs/pieces/wQ.xpm"
 #include "../imgs/pieces/wR.xpm"
 
+#include "../imgs/cursor.xpm"
+
 #define SQUARE_SIZE 108
 
 typedef struct {
@@ -40,6 +42,7 @@ Sprite *wQ;
 Sprite *wR;
 
 Sprite* cursor;
+
 
 Sprite *create_sprite(xpm_map_t xpm);
 

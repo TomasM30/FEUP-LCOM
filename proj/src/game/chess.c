@@ -165,6 +165,7 @@ Position *get_valid_moves(int *size) {
     }
 }
 
+
 /* Piece movement functions */
 
 Position *get_valid_king_moves(int *size) {

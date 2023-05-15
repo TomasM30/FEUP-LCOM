@@ -18,8 +18,10 @@ extern int timer_counter;
 extern uint8_t scancode;
 extern uint8_t byte_index;
 extern struct packet packet;
+extern int mouse_x, mouse_y;
 
 extern GameState state;
+extern bool selected;
 
 
 int subscribe_devices();

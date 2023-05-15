@@ -42,10 +42,10 @@ int dispatcher() {
     int ipc_status;
     message msg;
     uint8_t r;
-    
-    if (mouse_write_cmd(MOUSE_EN_DATA_REP)) return 1;
 
     if (timer_set_frequency(0, 60)) return 1;
+    
+    if (mouse_write_cmd(MOUSE_EN_DATA_REP)) return 1;
 
     if (subscribe_devices()) return 1;
 
@@ -88,6 +88,16 @@ int dispatcher() {
 
 void timer_handler() {
     timer_int_handler();
+
+    if (timer_counter % 2 == 0) {
+        if (draw_board()) return;
+
+        if (draw_pieces()) return;
+
+        if (mouse_draw_cursor()) return;
+
+        if (vg_copy_buffer()) return;
+    }
 }
 
 void keyboard_handler() {
@@ -101,6 +111,7 @@ void mouse_handler() {
     if (byte_index == 3) {
         mouse_parse_packet();
         byte_index = 0;
+        mouse_update_position();
     }
 }
 

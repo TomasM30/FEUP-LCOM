@@ -5,6 +5,7 @@ uint8_t packetBytes[3];
 uint8_t byte;
 uint8_t byte_index = 0;
 struct packet packet;
+int mouse_x = 0, mouse_y = 0;
 
 int (mouse_subscribe_int)(uint8_t *bit_no) {
     *bit_no = BIT(mouse_hook_id);
@@ -61,4 +62,28 @@ void (mouse_parse_packet)() {
 
     packet.delta_x = (packetBytes[0] & MOUSE_X_SIGNAL) ? (0xFF00 | packetBytes[1]) : packetBytes[1];
     packet.delta_y = (packetBytes[0] & MOUSE_Y_SIGNAL) ? (0xFF00 | packetBytes[2]) : packetBytes[2];
+}
+
+void (mouse_update_position)() {
+    if (mouse_x + packet.delta_x < 0 && !packet.x_ov) {
+        mouse_x = 0;
+    } else if (mouse_x + packet.delta_x > get_hres() && !packet.x_ov) {
+        mouse_x = get_hres();
+    } else if (!packet.x_ov) {
+        mouse_x += packet.delta_x;
+    }
+
+    if (mouse_y - packet.delta_y < 0 && !packet.y_ov) {
+        mouse_y = 0;
+    } else if (mouse_y - packet.delta_y > get_vres() && !packet.y_ov) {
+        mouse_y = get_vres();
+    } else if (!packet.y_ov) {
+        mouse_y -= packet.delta_y;
+    }
+}
+
+int (mouse_draw_cursor)() {
+    if (draw_sprite(cursor, mouse_x, mouse_y)) return 1;
+
+    return 0;
 }

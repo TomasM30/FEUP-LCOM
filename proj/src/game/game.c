@@ -7,10 +7,6 @@ int game_init() {
 
     load_board();
 
-    if (draw_board()) return 1;
-
-    if (draw_pieces()) return 1;
-
     return 0;
 }
 

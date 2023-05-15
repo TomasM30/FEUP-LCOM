@@ -24,8 +24,8 @@ int (vg_start)(uint16_t mode) {
 
     if (video_mem == MAP_FAILED) return 1;
 
-    double_buffer = malloc(frame_size);
-    if (double_buffer == NULL) return 1;
+    second_buffer = malloc(frame_size);
+    if (second_buffer == NULL) return 1;
     
     reg86_t reg86;
     memset(&reg86, 0, sizeof(reg86_t));
@@ -38,6 +38,12 @@ int (vg_start)(uint16_t mode) {
 
     if (sys_int86(&reg86) != 0) return 1;
 
+    return 0;
+}
+
+int (vg_copy_buffer)() {
+    if (memcpy(video_mem, second_buffer, hres * vres * bytes_per_pixel) == NULL) return 1;
+    memset(second_buffer, 0, hres * vres * bytes_per_pixel);
     return 0;
 }
 
@@ -58,27 +64,12 @@ void (normalize_color)(uint32_t *color) {
         *color &= BIT(mode_info.BitsPerPixel) - 1;
 }
 
-int (vg_draw_pixelDB)(uint16_t x, uint16_t y, uint32_t color) {
-    if (x < 0 || y < 0) return 1;
-    if (x >= hres || y >= vres) return 1;
-
-    size_t idx = (hres * y + x) * bytes_per_pixel;
-    if (memcpy(&double_buffer[idx], &color, bytes_per_pixel) == NULL) return 1;
-    return 0;
-}
-
 int (vg_draw_pixel)(uint16_t x, uint16_t y, uint32_t color) {
     if (x < 0 || y < 0) return 1;
     if (x >= hres || y >= vres) return 1;
 
     size_t idx = (hres * y + x) * bytes_per_pixel;
-    if (memcpy(&video_mem[idx], &color, bytes_per_pixel) == NULL) return 1;
-    return 0;
-}
-
-int (vg_copy_buffer)() {
-    if (memcpy(video_mem, double_buffer, hres * vres * bytes_per_pixel) == NULL) return 1;
-    memset(double_buffer, 0, hres * vres * bytes_per_pixel);
+    if (memcpy(&second_buffer[idx], &color, bytes_per_pixel) == NULL) return 1;
     return 0;
 }
 

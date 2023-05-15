@@ -54,6 +54,8 @@ void load_sprites() {
     wP = create_sprite((xpm_map_t) wP_xpm);
     wQ = create_sprite((xpm_map_t) wQ_xpm);
     wR = create_sprite((xpm_map_t) wR_xpm);
+
+    cursor = create_sprite((xpm_map_t) cursor_xpm);
 }
 
 void dump_sprites() {
@@ -70,4 +72,5 @@ void dump_sprites() {
     destroy_sprite(wP);
     destroy_sprite(wQ);
     destroy_sprite(wR);
+    destroy_sprite(cursor);
 }
