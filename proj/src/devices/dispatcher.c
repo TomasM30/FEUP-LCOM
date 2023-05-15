@@ -112,6 +112,18 @@ void mouse_handler() {
         mouse_parse_packet();
         byte_index = 0;
         mouse_update_position();
+
+        // if (state == MENU)
+
+        // if (state == GAME)
+
+        if (packet.lb) {
+            if (is_selected()) {
+                move_piece(mouse_x, mouse_y);
+            } else {
+                select_piece(mouse_x, mouse_y);
+            }
+        }
     }
 }
 

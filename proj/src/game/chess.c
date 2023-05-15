@@ -148,17 +148,17 @@ Position *get_valid_moves(int *size) {
 
     switch (sel_piece.type) {
         case KING:
-            // return get_valid_king_moves(size);
+            return get_valid_king_moves(size);
         case QUEEN:
-            // return get_valid_queen_moves(size);
+            return get_valid_queen_moves(size);
         case BISHOP:
-            // return get_valid_bishop_moves(size);
+            return get_valid_bishop_moves(size);
         case KNIGHT:
-            // return get_valid_knight_moves(size);
+            return get_valid_knight_moves(size);
         case ROOK:
-            // return get_valid_rook_moves(size);
+            return get_valid_rook_moves(size);
         case PAWN:
-            // return get_valid_pawn_moves(size);
+            return get_valid_pawn_moves(size);
 
         default:
             return NULL;

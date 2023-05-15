@@ -49,17 +49,17 @@ Position *get_valid_moves(int *size);
 
 /* Piece movement functions */
 
-Position *get_valid_moves_king(int *size);
+Position *get_valid_king_moves(int *size);
 
-Position *get_valid_moves_queen(int *size);
+Position *get_valid_queen_moves(int *size);
 
-Position *get_valid_moves_bishop(int *size);
+Position *get_valid_bishop_moves(int *size);
 
-Position *get_valid_moves_knight(int *size);
+Position *get_valid_knight_moves(int *size);
 
-Position *get_valid_moves_rook(int *size);
+Position *get_valid_rook_moves(int *size);
 
-Position *get_valid_moves_pawn(int *size);
+Position *get_valid_pawn_moves(int *size);
 
 
 /* Auxiliary drawing functions */
