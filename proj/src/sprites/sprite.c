@@ -13,6 +13,8 @@ Sprite *create_sprite(xpm_map_t xpm) {
 
     sp->width = img.width;
     sp->height = img.height;
+    sp->x = 0;
+    sp->y = 0;
 
     return sp;
 }
@@ -37,10 +39,21 @@ int draw_sprite(Sprite *sp, int x, int y) {
         }
     }
     
+    sp->x = x;
+    sp->y = y;
+
     return 0;
 }
 
 void load_sprites() {
+    cursor = create_sprite((xpm_map_t) cursor_xpm);
+    background = create_sprite((xpm_map_t) background_xpm);
+
+    logo = create_sprite((xpm_map_t) logo_xpm);
+    single_machine = create_sprite((xpm_map_t) single_machine_xpm);
+    double_machine = create_sprite((xpm_map_t) double_machine_xpm);
+    quit = create_sprite((xpm_map_t) quit_xpm);
+    
     board_img = create_sprite((xpm_map_t) board_xpm);
     bB = create_sprite((xpm_map_t) bB_xpm);
     bK = create_sprite((xpm_map_t) bK_xpm);
@@ -54,11 +67,17 @@ void load_sprites() {
     wP = create_sprite((xpm_map_t) wP_xpm);
     wQ = create_sprite((xpm_map_t) wQ_xpm);
     wR = create_sprite((xpm_map_t) wR_xpm);
-
-    cursor = create_sprite((xpm_map_t) cursor_xpm);
 }
 
 void dump_sprites() {
+    destroy_sprite(cursor);
+    destroy_sprite(background);
+
+    destroy_sprite(logo);
+    destroy_sprite(single_machine);
+    destroy_sprite(double_machine);
+    destroy_sprite(quit);
+    
     destroy_sprite(board_img);
     destroy_sprite(bB);
     destroy_sprite(bK);
@@ -72,5 +91,4 @@ void dump_sprites() {
     destroy_sprite(wP);
     destroy_sprite(wQ);
     destroy_sprite(wR);
-    destroy_sprite(cursor);
 }

@@ -7,9 +7,4 @@ typedef enum {
     QUIT
 } GameState;
 
-typedef struct {
-    int minutes;
-    int seconds;
-} Time;
-
 #endif

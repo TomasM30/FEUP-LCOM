@@ -73,7 +73,7 @@ int draw_pieces() {
     return 0;
 }
 
-void select_piece(int x, int y) {
+void mouse_select_piece(int x, int y) {
     int row = y / SQUARE_SIZE;
     int col = x / SQUARE_SIZE;
 
@@ -95,20 +95,7 @@ void select_piece(int x, int y) {
     return;
 }
 
-void deselect_piece() {
-    sel_row = -1;
-    sel_col = -1;
-
-    selected = false;
-
-    return;
-}
-
-bool is_selected() {
-    return selected;
-}
-
-void move_piece(int xf, int yf) {
+void mouse_move_piece(int xf, int yf) {
     if (!selected) return;
 
     int row = yf / SQUARE_SIZE;
@@ -128,6 +115,20 @@ void move_piece(int xf, int yf) {
 
     return;
 }
+
+void deselect_piece() {
+    sel_row = -1;
+    sel_col = -1;
+
+    selected = false;
+
+    return;
+}
+
+bool is_selected() {
+    return selected;
+}
+
 
 bool is_valid_move(int row, int col) {
     int size;

@@ -57,7 +57,7 @@ int dispatcher() {
 
     if (subscribe_devices()) return 1;
 
-    while (scancode != KBC_BRK_ESC_KEY) {
+    while (state != QUIT) {
         if ((r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
             printf("Error driver_receive failed with: %d\n", r);
             continue;
@@ -105,10 +105,31 @@ int dispatcher() {
 void timer_handler() {
     timer_int_handler();
 
+    if (timer_counter % 30 == 0 && state == GAME) {
+        // update_clock();
+    }
+
     if (timer_counter % 2 == 0) {
+        if (draw_background()) return;
+
+        if (draw_main_menu()) return;
+        
         if (draw_board()) return;
 
         if (draw_pieces()) return;
+
+        switch (state) {
+            case MENU:
+                break;
+            case GAME:
+                // if (draw_clocks()) return;
+                break;
+            case QUIT:
+                break;
+
+            default:
+                break;
+        }
 
         if (mouse_draw_cursor()) return;
 
@@ -118,6 +139,10 @@ void timer_handler() {
 
 void keyboard_handler() {
     keyboard_ih();
+
+    if (scancode == KBC_BRK_ESC_KEY) {
+        state = QUIT;
+    }
 }
 
 void mouse_handler() {
@@ -134,9 +159,9 @@ void mouse_handler() {
         // if (state == GAME)
         if (packet.lb) {
             if (is_selected()) {
-                move_piece(mouse_x, mouse_y);
+                mouse_move_piece(mouse_x, mouse_y);
             } else {
-                select_piece(mouse_x, mouse_y);
+                mouse_select_piece(mouse_x, mouse_y);
             }
         }
     }

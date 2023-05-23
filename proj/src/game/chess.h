@@ -2,7 +2,6 @@
 #define CHESS_H
 
 #include <lcom/lcf.h>
-#include "../devices/video/video.h"
 #include "../sprites/sprite.h"
 
 typedef enum {
@@ -59,13 +58,13 @@ int draw_piece(int i, int j, uint32_t color);
 
 int draw_pieces();
 
-void select_piece(int x, int y);
+void mouse_select_piece(int x, int y);
+
+void mouse_move_piece(int xf, int yf);
 
 void deselect_piece();
 
 bool is_selected();
-
-void move_piece(int xf, int yf);
 
 bool is_valid_move(int xf, int yf);
 

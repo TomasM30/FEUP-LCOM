@@ -7,6 +7,9 @@ int init_game() {
 
     load_board();
 
+    // state = MENU;
+    state = GAME;
+
     return 0;
 }
 
@@ -24,6 +27,12 @@ int exit_game() {
     if (vg_exit()) return 1;
 
     dump_sprites();
+
+    return 0;
+}
+
+int draw_background() {
+    if (draw_sprite(background, 864, 0)) return 1;
 
     return 0;
 }

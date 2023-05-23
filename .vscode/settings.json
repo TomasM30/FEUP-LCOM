@@ -5,6 +5,7 @@
         "lcf.h": "c",
         "video.h": "c",
         "math.h": "c",
-        "chess.h": "c"
+        "chess.h": "c",
+        "clock.h": "c"
     }
 }
