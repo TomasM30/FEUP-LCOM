@@ -10,7 +10,10 @@ void menu_handle_mouse() {
     }
 
     if (state == GAME) {
-        if (mouse_clicked_button(return_button)) state = MENU;
+        if (mouse_clicked_button(return_button)) {
+            state = MENU;
+            load_board();
+        }
     }
 }
 
@@ -20,7 +23,10 @@ void menu_handle_keyboard() {
     }
 
     if (state == GAME) {
-        if (scancode == KBC_BRK_ESC_KEY) state = MENU;
+        if (scancode == KBC_BRK_ESC_KEY) { 
+            state = MENU;
+            load_board();
+        }
     }
 }
 

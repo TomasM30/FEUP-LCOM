@@ -140,6 +140,13 @@ void mouse_handler() {
         mouse_update_position();
 
         menu_handle_mouse();
+
+        if (state == GAME) {
+            if (packet.lb) {
+                if (is_selected()) mouse_move_piece(mouse_x, mouse_y);
+                else mouse_select_piece(mouse_x, mouse_y);
+            }
+        } 
     }
 }
 
