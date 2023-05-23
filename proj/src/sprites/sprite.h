@@ -11,6 +11,7 @@
 #include "../imgs/buttons/single_machine.xpm"
 #include "../imgs/buttons/double_machine.xpm"
 #include "../imgs/buttons/quit.xpm"
+#include "../imgs/buttons/return.xpm"
 
 #include "../imgs/board.xpm"
 #include "../imgs/pieces/bB.xpm"
@@ -41,6 +42,7 @@ Sprite *logo;
 Sprite *single_machine;
 Sprite *double_machine;
 Sprite *quit;
+Sprite *return_button;
 
 Sprite *board_img;
 Sprite *bB;

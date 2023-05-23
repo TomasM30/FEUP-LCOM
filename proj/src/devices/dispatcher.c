@@ -105,31 +105,18 @@ int dispatcher() {
 void timer_handler() {
     timer_int_handler();
 
-    if (timer_counter % 30 == 0 && state == GAME) {
+    if (timer_counter % 60 == 0 && state == GAME) {
         // update_clock();
     }
 
     if (timer_counter % 2 == 0) {
         if (draw_background()) return;
 
-        if (draw_main_menu()) return;
+        if (draw_menu()) return;
         
         if (draw_board()) return;
 
         if (draw_pieces()) return;
-
-        switch (state) {
-            case MENU:
-                break;
-            case GAME:
-                // if (draw_clocks()) return;
-                break;
-            case QUIT:
-                break;
-
-            default:
-                break;
-        }
 
         if (mouse_draw_cursor()) return;
 
@@ -140,9 +127,7 @@ void timer_handler() {
 void keyboard_handler() {
     keyboard_ih();
 
-    if (scancode == KBC_BRK_ESC_KEY) {
-        state = QUIT;
-    }
+    menu_handle_keyboard();
 }
 
 void mouse_handler() {
@@ -154,16 +139,7 @@ void mouse_handler() {
         byte_index = 0;
         mouse_update_position();
 
-        // if (state == MENU)
-
-        // if (state == GAME)
-        if (packet.lb) {
-            if (is_selected()) {
-                mouse_move_piece(mouse_x, mouse_y);
-            } else {
-                mouse_select_piece(mouse_x, mouse_y);
-            }
-        }
+        menu_handle_mouse();
     }
 }
 

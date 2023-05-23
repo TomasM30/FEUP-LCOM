@@ -87,3 +87,11 @@ int (mouse_draw_cursor)() {
 
     return 0;
 }
+
+bool (mouse_over_button)(Sprite *button) {
+    return mouse_x >= button->x && mouse_x <= button->x + button->width && mouse_y >= button->y && mouse_y <= button->y + button->height;
+}
+
+bool (mouse_clicked_button)(Sprite *button) {
+    return mouse_over_button(button) && packet.lb;
+}

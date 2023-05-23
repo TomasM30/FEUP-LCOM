@@ -2,7 +2,7 @@
 #define DATA_TYPES_H
 
 typedef enum {
-    MENU, 
+    MENU,
     GAME,
     QUIT
 } GameState;

@@ -24,4 +24,8 @@ void (mouse_update_position)();
 
 int (mouse_draw_cursor)();
 
+bool (mouse_over_button)(Sprite *button);
+
+bool (mouse_clicked_button)(Sprite *button);
+
 #endif

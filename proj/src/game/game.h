@@ -12,11 +12,11 @@
 GameState state;
 extern Sprite *background;
 
-int init_game();
+int game_init();
 
-int run_game();
+int game_run();
 
-int exit_game();
+int game_exit();
 
 int draw_background();
 

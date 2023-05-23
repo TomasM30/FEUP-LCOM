@@ -53,6 +53,7 @@ void load_sprites() {
     single_machine = create_sprite((xpm_map_t) single_machine_xpm);
     double_machine = create_sprite((xpm_map_t) double_machine_xpm);
     quit = create_sprite((xpm_map_t) quit_xpm);
+    return_button = create_sprite((xpm_map_t) return_xpm);
     
     board_img = create_sprite((xpm_map_t) board_xpm);
     bB = create_sprite((xpm_map_t) bB_xpm);
@@ -77,6 +78,7 @@ void dump_sprites() {
     destroy_sprite(single_machine);
     destroy_sprite(double_machine);
     destroy_sprite(quit);
+    destroy_sprite(return_button);
     
     destroy_sprite(board_img);
     destroy_sprite(bB);
