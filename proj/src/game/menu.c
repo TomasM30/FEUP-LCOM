@@ -1,6 +1,6 @@
 #include "menu.h"
 
-void menu_handle_mouse() {
+void menu_handle_mouse() {    
     if (state == MENU) {
         if (mouse_clicked_button(single_machine)) state = GAME;
 

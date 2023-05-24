@@ -30,6 +30,8 @@ void load_board() {
     board[7][5] = (Piece) {BISHOP, WHITE};
     board[7][6] = (Piece) {KNIGHT, WHITE};
     board[7][7] = (Piece) {ROOK, WHITE};
+
+    white_turn = true;
 }
 
 int draw_board() {
@@ -73,12 +75,7 @@ int draw_pieces() {
     return 0;
 }
 
-void mouse_select_piece(int x, int y) {
-    int row = y / SQUARE_SIZE;
-    int col = x / SQUARE_SIZE;
-
-    if (row < 0 || row > 7 || col < 0 || col > 7) return;
-
+void select_piece(int row, int col) {
     Piece piece = board[row][col];
 
     if (piece.type == EMPTY) return;
@@ -95,23 +92,13 @@ void mouse_select_piece(int x, int y) {
     return;
 }
 
-void mouse_move_piece(int xf, int yf) {
-    if (!selected) return;
-
-    int row = yf / SQUARE_SIZE;
-    int col = xf / SQUARE_SIZE;
+void mouse_select_piece(int x, int y) {
+    int row = y / SQUARE_SIZE;
+    int col = x / SQUARE_SIZE;
 
     if (row < 0 || row > 7 || col < 0 || col > 7) return;
 
-    if (row == sel_row && col == sel_col) return;
-
-    if (is_valid_move(row, col)) {
-        board[row][col] = board[sel_row][sel_col];
-        board[sel_row][sel_col] = (Piece) {EMPTY, UNDEFINED};
-        white_turn = !white_turn;
-    }
-
-    deselect_piece();
+    select_piece(row, col);
 
     return;
 }
@@ -129,6 +116,34 @@ bool is_selected() {
     return selected;
 }
 
+void move_piece(int row, int col) {
+    if (!selected) return;
+
+    if (row == sel_row && col == sel_col) return;
+
+    if (is_valid_move(row, col)) {
+        board[row][col] = board[sel_row][sel_col];
+        board[sel_row][sel_col] = (Piece) {EMPTY, UNDEFINED};
+        white_turn = !white_turn;
+    }
+
+    deselect_piece();
+
+    select_piece(row, col);
+
+    return;
+}
+
+void mouse_move_piece(int xf, int yf) {
+    int row = yf / SQUARE_SIZE;
+    int col = xf / SQUARE_SIZE;
+
+    if (row < 0 || row > 7 || col < 0 || col > 7) return;
+
+    move_piece(row, col);
+
+    return;
+}
 
 bool is_valid_move(int row, int col) {
     int size;
