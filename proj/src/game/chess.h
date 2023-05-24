@@ -49,6 +49,8 @@ static Piece board[8][8]; // board matrix
 static bool white_turn; // true if white's turn, false if black's turn
 static bool selected; // true if a piece is selected, false otherwise
 static int sel_row = -1, sel_col = -1; // selected piece coordinates
+static Piece prev[8][8]; // previous board matrix
+
 
 void load_board();
 
@@ -74,6 +76,11 @@ bool is_valid_move(int xf, int yf);
 
 Position *get_valid_moves(int *size);
 
+void copy_board(Piece dest[8][8], Piece src[8][8]);
+
+bool is_empty(Piece src[8][8]);
+
+void undo_move();
 
 /* Piece movement functions */
 

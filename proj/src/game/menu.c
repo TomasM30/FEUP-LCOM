@@ -14,6 +14,10 @@ void menu_handle_mouse() {
             state = MENU;
             load_board();
         }
+
+        if (mouse_clicked_button(undo)) {
+            undo_move();
+        }
     }
 }
 

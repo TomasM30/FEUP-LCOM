@@ -31,6 +31,8 @@ void load_board() {
     board[7][6] = (Piece) {KNIGHT, WHITE};
     board[7][7] = (Piece) {ROOK, WHITE};
 
+    copy_board(prev, board);
+
     white_turn = true;
 
     clock_init();
@@ -125,6 +127,7 @@ void move_piece(int row, int col) {
     if (row == sel_row && col == sel_col) return;
 
     if (is_valid_move(row, col)) {
+        copy_board(prev, board);
         board[row][col] = board[sel_row][sel_col];
         board[sel_row][sel_col] = (Piece) {EMPTY, UNDEFINED};
         white_turn = !white_turn;
@@ -185,6 +188,23 @@ Position *get_valid_moves(int *size) {
     }
 }
 
+void copy_board(Piece dest[8][8], Piece src[8][8]) {
+    for (int i = 0; i < 8; i++) {
+        memcpy(dest[i], src[i], 8 * sizeof(Piece));
+    }
+
+    return;
+}
+
+void undo_move() {
+    if (memcmp(board, prev, 8 * 8 * sizeof(Piece)) == 0) return;
+    
+    copy_board(board, prev);
+    white_turn = !white_turn;
+    clock_set(white_turn);
+
+    return;
+}
 
 /* Piece movement functions */
 
