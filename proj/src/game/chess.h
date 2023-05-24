@@ -78,8 +78,6 @@ Position *get_valid_moves(int *size);
 
 void copy_board(Piece dest[8][8], Piece src[8][8]);
 
-bool is_empty(Piece src[8][8]);
-
 void undo_move();
 
 /* Piece movement functions */
