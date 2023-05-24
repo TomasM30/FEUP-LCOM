@@ -10,6 +10,7 @@ extern Sprite* single_machine;
 extern Sprite* double_machine;
 extern Sprite* quit;
 extern Sprite* return_button;
+extern Sprite* undo;
 
 extern GameState state;
 

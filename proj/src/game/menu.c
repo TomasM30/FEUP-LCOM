@@ -46,12 +46,6 @@ int draw_menu() {
      return 0;
 }
 
-int draw_game_menu() {
-    if (draw_sprite(return_button, 908, 576)) return 1;
-
-    return 0;
-}
-
 int draw_main_menu() {
     if (draw_sprite(logo, 908, 106)) return 1;
     
@@ -60,6 +54,16 @@ int draw_main_menu() {
     if (draw_sprite(double_machine, 908, 422)) return 1;
 
     if (draw_sprite(quit, 908, 576)) return 1;
+
+    return 0;
+}
+
+int draw_game_menu() {
+    if (draw_sprite(return_button, 908, 598)) return 1;
+
+    if (draw_sprite(undo, 908, 658)) return 1;
+    
+    if (draw_clocks()) return 1;
 
     return 0;
 }

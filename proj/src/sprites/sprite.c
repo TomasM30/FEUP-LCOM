@@ -48,13 +48,13 @@ int draw_sprite(Sprite *sp, int x, int y) {
 void load_sprites() {
     cursor = create_sprite((xpm_map_t) cursor_xpm);
     background = create_sprite((xpm_map_t) background_xpm);
-
     logo = create_sprite((xpm_map_t) logo_xpm);
     single_machine = create_sprite((xpm_map_t) single_machine_xpm);
     double_machine = create_sprite((xpm_map_t) double_machine_xpm);
     quit = create_sprite((xpm_map_t) quit_xpm);
     return_button = create_sprite((xpm_map_t) return_xpm);
-    
+    undo = create_sprite((xpm_map_t) undo_xpm);
+    clock_background = create_sprite((xpm_map_t) clock_background_xpm);
     board_img = create_sprite((xpm_map_t) board_xpm);
     bB = create_sprite((xpm_map_t) bB_xpm);
     bK = create_sprite((xpm_map_t) bK_xpm);
@@ -73,13 +73,13 @@ void load_sprites() {
 void dump_sprites() {
     destroy_sprite(cursor);
     destroy_sprite(background);
-
     destroy_sprite(logo);
     destroy_sprite(single_machine);
     destroy_sprite(double_machine);
     destroy_sprite(quit);
     destroy_sprite(return_button);
-    
+    destroy_sprite(undo);
+    destroy_sprite(clock_background);
     destroy_sprite(board_img);
     destroy_sprite(bB);
     destroy_sprite(bK);

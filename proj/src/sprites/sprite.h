@@ -3,16 +3,15 @@
 
 #include <lcom/lcf.h>
 #include "../devices/video/video.h"
-
 #include "../imgs/cursor.xpm"
 #include "../imgs/background.xpm"
-
 #include "../imgs/logo.xpm"
 #include "../imgs/buttons/single_machine.xpm"
 #include "../imgs/buttons/double_machine.xpm"
 #include "../imgs/buttons/quit.xpm"
 #include "../imgs/buttons/return.xpm"
-
+#include "../imgs/buttons/undo.xpm"
+#include "../imgs/clock_background.xpm"
 #include "../imgs/board.xpm"
 #include "../imgs/pieces/bB.xpm"
 #include "../imgs/pieces/bK.xpm"
@@ -35,15 +34,16 @@ typedef struct {
     uint32_t *colors;
 } Sprite;
 
+
 Sprite *cursor;
 Sprite *background;
-
 Sprite *logo;
 Sprite *single_machine;
 Sprite *double_machine;
 Sprite *quit;
 Sprite *return_button;
-
+Sprite *undo;
+Sprite *clock_background;
 Sprite *board_img;
 Sprite *bB;
 Sprite *bK;
@@ -57,8 +57,6 @@ Sprite *wN;
 Sprite *wP;
 Sprite *wQ;
 Sprite *wR;
-
-Sprite *zero, *one, *two, *three, *four, *five, *six, *seven, *eight, *nine;
 
 
 Sprite *create_sprite(xpm_map_t xpm);
