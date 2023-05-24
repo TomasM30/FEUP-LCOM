@@ -6,6 +6,11 @@
         "video.h": "c",
         "math.h": "c",
         "chess.h": "c",
-        "clock.h": "c"
+        "clock.h": "c",
+        "serial_port.h": "c",
+        "queue.h": "c",
+        "stdint.h": "c",
+        "i8254.h": "c",
+        "timer.h": "c"
     }
 }
