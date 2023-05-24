@@ -32,10 +32,13 @@ void load_board() {
     board[7][7] = (Piece) {ROOK, WHITE};
 
     white_turn = true;
+
+    clock_init();
 }
 
 int draw_board() {
     if (draw_sprite(board_img, 0, 0)) return 1;    
+
     return 0;
 }
 
@@ -125,6 +128,7 @@ void move_piece(int row, int col) {
         board[row][col] = board[sel_row][sel_col];
         board[sel_row][sel_col] = (Piece) {EMPTY, UNDEFINED};
         white_turn = !white_turn;
+        clock_set(white_turn);   
     }
 
     deselect_piece();

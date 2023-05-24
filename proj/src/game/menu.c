@@ -63,7 +63,7 @@ int draw_game_menu() {
 
     if (draw_sprite(undo, 908, 658)) return 1;
     
-    if (draw_clocks()) return 1;
+    if (draw_clock()) return 1;
 
     return 0;
 }

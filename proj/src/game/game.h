@@ -6,6 +6,7 @@
 #include "data_types.h"
 #include "menu.h"
 #include "chess.h"
+#include "clock.h"
 #include "../devices/dispatcher.h"
 #include "../sprites/sprite.h"
 

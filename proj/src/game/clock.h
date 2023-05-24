@@ -19,7 +19,12 @@ typedef struct {
 static Clock white_clock;
 static Clock black_clock;
 
+void clock_init();
 
-int draw_clocks();
+void clock_set(bool white_turn);
+
+void clock_update();  
+
+int draw_clock();
 
 #endif

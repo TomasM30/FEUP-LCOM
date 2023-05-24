@@ -51,7 +51,7 @@ int dispatcher() {
     message msg;
     uint8_t r;
 
-    if (timer_set_frequency(0, 60)) return 1;
+    if (timer_set_frequency(0, 30)) return 1;
     
     if (mouse_write_cmd(MOUSE_EN_DATA_REP)) return 1;
 
@@ -105,23 +105,22 @@ int dispatcher() {
 void timer_handler() {
     timer_int_handler();
 
-    if (timer_counter % 60 == 0 && state == GAME) {
-        // update_clock();
+    if (timer_counter % 30 == 0 && state == GAME) {
+        clock_update();
     }
 
-    if (timer_counter % 2 == 0) {
-        if (draw_background()) return;
+    if (draw_background()) return;
 
-        if (draw_menu()) return;
-        
-        if (draw_board()) return;
+    if (draw_menu()) return;
+    
+    if (draw_board()) return;
 
-        if (draw_pieces()) return;
+    if (draw_pieces()) return;
 
-        if (mouse_draw_cursor()) return;
+    if (mouse_draw_cursor()) return;
 
-        if (vg_copy_buffer()) return;
-    }
+    if (vg_copy_buffer()) return;
+    
 }
 
 void keyboard_handler() {
