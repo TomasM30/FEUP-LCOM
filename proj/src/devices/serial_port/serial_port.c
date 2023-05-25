@@ -1,10 +1,16 @@
 #include "serial_port.h"
 
-int serial_port_hook_id = 3;
-static Queue *queue;
+int serial_port_hook_id = 4;
+static Queue *receive_queue;
+static Queue *send_queue;
+static bool holding = false;
 
-Queue *getQueue(){
-    return queue;
+Queue *getreceive_queue(){
+    return receive_queue;
+}
+
+Queue *getsend_queue(){
+    return send_queue;
 }
 
 int serial_port_subscribe_int(uint8_t *bit_no){
@@ -24,39 +30,73 @@ int serial_port_unsubscribe_int(){
     return 0;
 }
 
-void serial_port_start(){
-    uint8_t ierSt;
-    if(util_sys_inb(COM1_BASE_ADDR + IER, &ierSt) != OK){
-        printf("Error starting\n");
-        return;
+int serial_port_start(){
+    send_queue = createQueue(256);
+    receive_queue = createQueue(256);
+    uint8_t fcr = (FCR_ENABLE|FCR_CLEAR_RCVR|FCR_CLEAR_XMIT);
+    if(sys_outb(COM1_BASE_ADDR + FCR, fcr) != OK){
+        printf("Error starting serial port\n");
+        return 1;
     }
-    if(sys_outb(COM1_BASE_ADDR + IER, ierSt | IER_RDAI) != OK){
-        printf("Error starting\n");
-        return;
-    }
-    queue = createQueue(256);
-}
-
-void serial_port_end(){
-    deleteItems(queue);
-}
-
-int serial_port_read_status(uint8_t *st){
-    if(util_sys_inb(COM1_BASE_ADDR + LSR, st) != OK){
-        printf("Error reading status\n");
+    uint8_t ier = (IER_RDAI|IER_THREI|IER_RLSI);
+    if(sys_outb(COM1_BASE_ADDR + IER, ier) != OK){
+        printf("Error starting serial port\n");
         return 1;
     }
     return 0;
 }
 
-int serial_port_send_data(uint8_t data){
-    uint8_t st;
-    if(serial_port_read_status(&st) != OK){
-        printf("Error sending data\n");
+int serial_port_end(){
+    uint8_t ier;
+    if(util_sys_inb(COM1_BASE_ADDR + IER, &ier) != OK){
+        printf("Error ending serial port\n");
         return 1;
     }
-    if(st & THR_EMPTY){
-        if(sys_outb(COM1_BASE_ADDR + THR, data) != OK){
+    ier &= ~(IER_RDAI|IER_THREI|IER_RLSI);
+    if(sys_outb(COM1_BASE_ADDR + IER, ier) != OK){
+        printf("Error ending serial port\n");
+        return 1;
+    }
+    return 0;
+}
+
+int serial_port_exit(){
+    deleteItems(receive_queue);
+    deleteItems(send_queue);
+    if(serial_port_end() != 0){
+        printf("Error exiting serial port\n");
+        return 1;
+    }
+    return 0;
+}
+
+int serial_port_ih(){
+    uint8_t iir;
+    if(util_sys_inb(COM1_BASE_ADDR + IIR, &iir) != OK){
+        printf("Error reading status\n");
+        return 1;
+    }
+    while(!(iir & IIR_NO_INT)){
+        if(iir & IIR_RDA){
+            while(!serial_port_read_data());
+            if(util_sys_inb(COM1_BASE_ADDR + IIR, &iir) != 0){
+                return 1;
+            }
+        }
+        else if(iir & IIR_THRE){
+            while(!serial_port_send_queue_data());
+            if(util_sys_inb(COM1_BASE_ADDR + IIR, &iir) != 0){
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
+
+int serial_port_send_data(uint8_t data){
+    push(send_queue, data);
+    if(!holding){
+        if(serial_port_send_queue_data() != 0){
             printf("Error sending data\n");
             return 1;
         }
@@ -64,37 +104,59 @@ int serial_port_send_data(uint8_t data){
     return 0;
 }
 
-int serial_port_read_data(){
-    uint8_t st;
-    if(serial_port_read_status(&st) != OK){
-        printf("Error reading data\n");
+
+int serial_port_send_queue_data(){
+    if(isEmpty(send_queue)){
+        holding = true;
         return 1;
     }
-    if(st & (SER_OVERRUN_ERR | SER_PARITY_ERR | SER_FRAME_ERR)){
-        printf("Error reading data\n");
-        return 1;
-    }
-    if(st & RR_READY){
-        uint8_t data;
-        if(util_sys_inb(COM1_BASE_ADDR + RBR, &data) != OK){
-            printf("Error reading data\n");
+
+    uint8_t data;
+
+    while(!isEmpty(send_queue)){
+        if(sys_outb(COM1_BASE_ADDR + THR, front(send_queue)) != OK){
+            printf("Error sending data\n");
             return 1;
         }
-        push(queue, data);
-        return 0;
-    }
-    return 1;
-}
-
-int serial_port_ih(){
-    uint8_t iirSt;
-    util_sys_inb(COM1_BASE_ADDR + IIR, &iirSt);
-    if(!(iirSt & INT_PEND)){
-        if(iirSt & INT_ID){
-            if(iirSt & RX_INT){
-                serial_port_read_data();
-            }
+        pop(send_queue);
+        if(util_sys_inb(COM1_BASE_ADDR + LSR, &data) != OK){
+            printf("Error reading status\n");
+            return 1;
+        }
+        data &= LSR_THRE;
+        if(data == 0){
+            holding = true;
+            return 1;
+        } 
+        else{
+            holding = false;
         }
     }
     return 0;
 }
+
+int serial_port_read_data(){
+    uint8_t lsr;
+    uint8_t data;
+    if(util_sys_inb(COM1_BASE_ADDR + LSR, &lsr) != OK){
+        printf("Error reading data\n");
+        return 1;
+    }
+    lsr &= LSR_RDA;
+    if(lsr == 0){
+        return 1;
+    } else {
+        if(util_sys_inb(COM1_BASE_ADDR + RBR, &data) != OK){
+            printf("Error reading data\n");
+            return 1;
+        }
+        if(data & (SER_OVERRUN_ERR| SER_PARITY_ERR| SER_FRAME_ERR)){
+            printf("Error reading data\n");
+            return 1;
+        }
+        push(receive_queue, data);
+        return 0;
+    }
+}
+
+

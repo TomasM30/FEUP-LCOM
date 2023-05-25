@@ -176,6 +176,8 @@ void mouse_handler() {
 
 void serial_port_handler() {
     serial_port_ih();
+    
+
 }
 
 void rtc_handler() {

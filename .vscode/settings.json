@@ -12,6 +12,7 @@
         "stdint.h": "c",
         "i8254.h": "c",
         "timer.h": "c",
-        "dispatcher.h": "c"
+        "dispatcher.h": "c",
+        "serialport.h": "c"
     }
 }

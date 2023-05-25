@@ -25,6 +25,7 @@ int run_game() {
 
 int exit_game() {
     if (vg_exit()) return 1;
+    if(serial_port_exit() != 0) return 1;
 
     dump_sprites();
 

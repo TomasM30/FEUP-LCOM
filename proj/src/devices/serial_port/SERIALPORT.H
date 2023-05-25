@@ -23,11 +23,17 @@
 #define COM1_BASE_ADDR 0x3F8
 #define COM2_BASE_ADDR 0x2F8
 
-#define THR_EMPTY BIT(5)
-#define RR_READY BIT(0)
 #define IER_RDAI BIT(0)
-#define INT_PEND BIT(0)
-#define INT_ID BIT(1)
-#define RX_INT BIT(2)
+#define IER_THREI BIT(1)
+#define IER_RLSI BIT(2)
+#define IIR_NO_INT BIT(0)
+#define IIR_RDA BIT(2)
+#define IIR_THRE BIT(1)
+#define LSR_THRE BIT(5)
+#define LSR_RDA BIT(0)
+#define FCR_ENABLE BIT(0)
+#define FCR_CLEAR_RCVR BIT(1)
+#define FCR_CLEAR_XMIT BIT(2)
+
 
 #endif
