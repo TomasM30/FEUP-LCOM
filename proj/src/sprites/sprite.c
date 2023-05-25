@@ -49,13 +49,19 @@ void load_sprites() {
     cursor = create_sprite((xpm_map_t) cursor_xpm);
     background = create_sprite((xpm_map_t) background_xpm);
     logo = create_sprite((xpm_map_t) logo_xpm);
+    
     single_machine = create_sprite((xpm_map_t) single_machine_xpm);
     double_machine = create_sprite((xpm_map_t) double_machine_xpm);
-    quit = create_sprite((xpm_map_t) quit_xpm);
     return_button = create_sprite((xpm_map_t) return_xpm);
+    quit = create_sprite((xpm_map_t) quit_xpm);
     undo = create_sprite((xpm_map_t) undo_xpm);
-    clock_background = create_sprite((xpm_map_t) clock_background_xpm);
+    
+    clock_background = create_sprite((xpm_map_t) clock_xpm);
+    
+    // load board
     board_img = create_sprite((xpm_map_t) board_xpm);
+    
+    // load pieces
     bB = create_sprite((xpm_map_t) bB_xpm);
     bK = create_sprite((xpm_map_t) bK_xpm);
     bN = create_sprite((xpm_map_t) bN_xpm);
@@ -68,6 +74,17 @@ void load_sprites() {
     wP = create_sprite((xpm_map_t) wP_xpm);
     wQ = create_sprite((xpm_map_t) wQ_xpm);
     wR = create_sprite((xpm_map_t) wR_xpm);
+
+    numbers[0] = create_sprite((xpm_map_t) zero_xpm);
+    numbers[1] = create_sprite((xpm_map_t) one_xpm);
+    numbers[2] = create_sprite((xpm_map_t) two_xpm);
+    numbers[3] = create_sprite((xpm_map_t) three_xpm);
+    numbers[4] = create_sprite((xpm_map_t) four_xpm);
+    numbers[5] = create_sprite((xpm_map_t) five_xpm);
+    numbers[6] = create_sprite((xpm_map_t) six_xpm);
+    numbers[7] = create_sprite((xpm_map_t) seven_xpm);
+    numbers[8] = create_sprite((xpm_map_t) eight_xpm);
+    numbers[9] = create_sprite((xpm_map_t) nine_xpm);
 }
 
 void dump_sprites() {
@@ -93,4 +110,8 @@ void dump_sprites() {
     destroy_sprite(wP);
     destroy_sprite(wQ);
     destroy_sprite(wR);
+    
+    for (int i = 0; i < 10; i++) {
+        destroy_sprite(numbers[i]);
+    }
 }

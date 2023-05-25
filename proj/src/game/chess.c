@@ -81,6 +81,8 @@ int draw_pieces() {
 }
 
 void select_piece(int row, int col) {
+    if (game_over) return;
+    
     Piece piece = board[row][col];
 
     if (piece.type == EMPTY) return;
@@ -122,6 +124,8 @@ bool is_selected() {
 }
 
 void move_piece(int row, int col) {
+    if (game_over) return;
+    
     if (!selected) return;
 
     if (row == sel_row && col == sel_col) return;
@@ -204,6 +208,10 @@ void undo_move() {
     clock_set(white_turn);
 
     return;
+}
+
+void set_game_over(bool clock_timeout) {
+    game_over = clock_timeout;
 }
 
 /* Piece movement functions */

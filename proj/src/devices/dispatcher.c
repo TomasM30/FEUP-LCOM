@@ -107,6 +107,7 @@ void timer_handler() {
 
     if (timer_counter % 30 == 0 && state == GAME) {
         clock_update();
+        set_game_over(clock_timeout());
     }
 
     if (draw_background()) return;

@@ -10,8 +10,11 @@
 #include "../devices/dispatcher.h"
 #include "../sprites/sprite.h"
 
-GameState state;
 extern Sprite *background;
+
+GameState state;
+bool serial_port;
+
 
 int game_init();
 

@@ -50,6 +50,7 @@ static bool white_turn; // true if white's turn, false if black's turn
 static bool selected; // true if a piece is selected, false otherwise
 static int sel_row = -1, sel_col = -1; // selected piece coordinates
 static Piece prev[8][8]; // previous board matrix
+static bool game_over; // true if game is over, false otherwise
 
 
 void load_board();
@@ -76,9 +77,18 @@ bool is_valid_move(int xf, int yf);
 
 Position *get_valid_moves(int *size);
 
+Position get_king_position();
+
+bool is_check();
+
+bool is_checkmate();
+
 void copy_board(Piece dest[8][8], Piece src[8][8]);
 
 void undo_move();
+
+void set_game_over(bool clock_timeout);
+
 
 /* Piece movement functions */
 
