@@ -127,7 +127,7 @@ void timer_handler() {
 void keyboard_handler() {
     keyboard_ih();
 
-    menu_handle_keyboard();
+    menu_handle_keyboard(scancode);
 }
 
 void mouse_handler() {

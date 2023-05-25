@@ -3,6 +3,7 @@
 
 #include <lcom/lcf.h>
 #include "game.h"
+#include "key_map.h"
 #include "../sprites/sprite.h"
 
 extern Sprite* logo;
@@ -14,9 +15,12 @@ extern Sprite* undo;
 
 extern GameState state;
 
+static int menu_index = 0;
+
+
 void menu_handle_mouse();
 
-void menu_handle_keyboard();
+void menu_handle_keyboard(uint8_t scancode);
 
 int draw_menu();
 
