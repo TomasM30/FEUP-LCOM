@@ -13,6 +13,12 @@
         "i8254.h": "c",
         "timer.h": "c",
         "dispatcher.h": "c",
-        "serialport.h": "c"
+        "serialport.h": "c",
+        "menu.h": "c",
+        "array": "c",
+        "string_view": "c",
+        "iterator": "c",
+        "string": "c",
+        "vector": "c"
     }
 }

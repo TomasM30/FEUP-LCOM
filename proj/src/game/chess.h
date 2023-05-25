@@ -3,6 +3,8 @@
 
 #include <lcom/lcf.h>
 #include "../sprites/sprite.h"
+#include "../devices/serial_port/serial_port.h"
+
 
 typedef enum {
     EMPTY,

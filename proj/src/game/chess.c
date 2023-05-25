@@ -109,6 +109,10 @@ void mouse_move_piece(int xf, int yf) {
         board[row][col] = board[sel_row][sel_col];
         board[sel_row][sel_col] = (Piece) {EMPTY, UNDEFINED};
         white_turn = !white_turn;
+        uint8_t dataPiece = (sel_row << 4) | sel_col;
+        uint8_t dataMove = (row << 4) | col;
+        serial_port_send_data(dataPiece);
+        serial_port_send_data(dataMove);
     }
 
     deselect_piece();

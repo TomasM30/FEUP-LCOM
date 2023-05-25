@@ -4,6 +4,7 @@
 #include <lcom/lcf.h>
 #include "SERIALPORT.H"
 #include "queue.h"
+#include <game/chess.h>
 
 Queue *getreceive_queue();
 Queue *getsend_queue();
@@ -16,6 +17,7 @@ int serial_port_ih();
 int serial_port_send_data(uint8_t data);
 int serial_port_send_queue_data();
 int serial_port_read_data();
+void drawCoopMoves();
 
 #endif
 

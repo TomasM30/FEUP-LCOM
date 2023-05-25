@@ -3,7 +3,7 @@
 int serial_port_hook_id = 4;
 static Queue *receive_queue;
 static Queue *send_queue;
-static bool holding = false;
+static bool holding = true;
 
 Queue *getreceive_queue(){
     return receive_queue;
@@ -73,33 +73,30 @@ int serial_port_exit(){
 int serial_port_ih(){
     uint8_t iir;
     if(util_sys_inb(COM1_BASE_ADDR + IIR, &iir) != OK){
-        printf("Error reading status\n");
         return 1;
     }
     while(!(iir & IIR_NO_INT)){
         if(iir & IIR_RDA){
-            while(!serial_port_read_data());
+            while(serial_port_read_data() != 0);
             if(util_sys_inb(COM1_BASE_ADDR + IIR, &iir) != 0){
                 return 1;
             }
         }
         else if(iir & IIR_THRE){
-            while(!serial_port_send_queue_data());
+            serial_port_send_queue_data();
             if(util_sys_inb(COM1_BASE_ADDR + IIR, &iir) != 0){
                 return 1;
             }
         }
     }
+    drawCoopMoves();
     return 0;
 }
 
 int serial_port_send_data(uint8_t data){
     push(send_queue, data);
-    if(!holding){
-        if(serial_port_send_queue_data() != 0){
-            printf("Error sending data\n");
-            return 1;
-        }
+    if(holding){
+        serial_port_send_queue_data();
     }
     return 0;
 }
@@ -114,13 +111,11 @@ int serial_port_send_queue_data(){
     uint8_t data;
 
     while(!isEmpty(send_queue)){
-        if(sys_outb(COM1_BASE_ADDR + THR, front(send_queue)) != OK){
-            printf("Error sending data\n");
+        if(sys_outb(COM1_BASE_ADDR + THR, front(send_queue)) != 0){
             return 1;
         }
         pop(send_queue);
-        if(util_sys_inb(COM1_BASE_ADDR + LSR, &data) != OK){
-            printf("Error reading status\n");
+        if(util_sys_inb(COM1_BASE_ADDR + LSR, &data) != 0){
             return 1;
         }
         data &= LSR_THRE;
@@ -150,13 +145,23 @@ int serial_port_read_data(){
             printf("Error reading data\n");
             return 1;
         }
-        if(data & (SER_OVERRUN_ERR| SER_PARITY_ERR| SER_FRAME_ERR)){
-            printf("Error reading data\n");
-            return 1;
-        }
         push(receive_queue, data);
         return 0;
     }
+}
+
+void drawCoopMoves(){
+    uint8_t piece = front(receive_queue);
+    printf("Piece: %x\n", piece);
+    int colP = piece & 0x0F;
+    int rowP = (piece >> 8) & 0x0F;
+    pop(receive_queue);
+    uint8_t move = front(receive_queue);
+    printf("Move: %x\n", move);
+    int colM = move & 0x0F;
+    int rowM = (move >> 8) & 0x0F;
+    board[rowM][colM] = board[rowP][colP];
+    board[rowP][colP] = (Piece) {EMPTY, UNDEFINED};
 }
 
 
