@@ -11,6 +11,10 @@ int main(int argc, char *argv[]) {
     if (lcf_start(argc, argv))
         return 1;
 
+    // enables to save the output of printf function calls on a file
+    // [comment this out if you don't want/need it]
+    lcf_log_output("/home/lcom/labs/proj/src/output.txt");
+
     // LCF clean up tasks
     // [must be the last statement before return]
     lcf_cleanup();
