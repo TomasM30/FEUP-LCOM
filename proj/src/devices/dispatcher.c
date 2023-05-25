@@ -16,8 +16,10 @@ int subscribe_devices() {
         return 1;
     }
 
-    // subscribe serial port interrupts
-
+    if (serial_port_subscribe_int(&irq_set_serial_port)) {
+        printf("Error subscribing serial port interrupts\n");
+        return 1;
+    }
     // subscribe rtc interrupts
 
     return 0;
@@ -39,7 +41,10 @@ int unsubscribe_devices() {
         return 1;
     }
 
-    // unsubscribe serial port interrupts
+    if (serial_port_unsubscribe_int()) {
+        printf("Error unsubscribing serial port interrupts\n");
+        return 1;
+    }
 
     // unsubscribe rtc interrupts
 
@@ -54,6 +59,8 @@ int dispatcher() {
     if (timer_set_frequency(0, 60)) return 1;
     
     if (mouse_write_cmd(MOUSE_EN_DATA_REP)) return 1;
+
+    serial_port_start();
 
     if (subscribe_devices()) return 1;
 
@@ -168,7 +175,7 @@ void mouse_handler() {
 }
 
 void serial_port_handler() {
-    
+    serial_port_ih();
 }
 
 void rtc_handler() {

@@ -3,6 +3,10 @@
 int serial_port_hook_id = 3;
 static Queue *queue;
 
+Queue *getQueue(){
+    return queue;
+}
+
 int serial_port_subscribe_int(uint8_t *bit_no){
     *bit_no = BIT(serial_port_hook_id);
     if(sys_irqsetpolicy(COM1_IRQ, IRQ_REENABLE | IRQ_EXCLUSIVE, &serial_port_hook_id) != OK){
@@ -63,6 +67,10 @@ int serial_port_send_data(uint8_t data){
 int serial_port_read_data(){
     uint8_t st;
     if(serial_port_read_status(&st) != OK){
+        printf("Error reading data\n");
+        return 1;
+    }
+    if(st & (SER_OVERRUN_ERR | SER_PARITY_ERR | SER_FRAME_ERR)){
         printf("Error reading data\n");
         return 1;
     }
