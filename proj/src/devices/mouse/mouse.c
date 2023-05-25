@@ -9,7 +9,6 @@ int mouse_x = 0, mouse_y = 0;
 
 int (mouse_subscribe_int)(uint8_t *bit_no) {
     *bit_no = BIT(mouse_hook_id);
-
     return sys_irqsetpolicy(MOUSE_IRQ, IRQ_REENABLE | IRQ_EXCLUSIVE, &mouse_hook_id);
 }
 
