@@ -3,6 +3,7 @@
 
 #include "lcom/lcf.h"
 #include "kbc.h"
+#include "key_map.h"
 
 int (keyboard_subscribe_int)(uint8_t *bit_no);
 

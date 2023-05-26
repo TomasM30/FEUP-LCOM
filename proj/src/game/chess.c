@@ -168,6 +168,61 @@ void mouse_move_piece(int xf, int yf) {
     return;
 }
 
+void keyboard_handle_input(uint8_t scancode) {
+    switch (scancode) {
+        case KEY_BACKSPACE:
+            deselect_piece();
+            kbd_row = -1; 
+            kbd_col = -1;
+            break;
+        
+        case KEY_1: 
+            kbd_row = 7; break;
+        case KEY_2: 
+            kbd_row = 6; break;
+        case KEY_3: 
+            kbd_row = 5; break;
+        case KEY_4: 
+            kbd_row = 4; break;
+        case KEY_5: 
+            kbd_row = 3; break;
+        case KEY_6: 
+            kbd_row = 2; break;
+        case KEY_7: 
+            kbd_row = 1; break;
+        case KEY_8: 
+            kbd_row = 0; break;
+        case KEY_A: 
+            kbd_col = 0; break;
+        case KEY_B: 
+            kbd_col = 1; break;
+        case KEY_C: 
+            kbd_col = 2; break;
+        case KEY_D: 
+            kbd_col = 3; break;
+        case KEY_E: 
+            kbd_col = 4; break;
+        case KEY_F: 
+            kbd_col = 5; break;
+        case KEY_G: 
+            kbd_col = 6; break;
+        case KEY_H: 
+            kbd_col = 7; break;
+
+        default:
+            break;        
+    }
+
+    if (!selected && kbd_row != -1 && kbd_col != -1) {
+        select_piece(kbd_row, kbd_col);
+        return;
+    }
+
+    if (kbd_row != -1 && kbd_col != -1) move_piece(kbd_row, kbd_col);
+
+    return;
+}
+
 bool is_valid_move(int row, int col) {
     int size;
     Position *valid_moves = get_valid_moves(&size);

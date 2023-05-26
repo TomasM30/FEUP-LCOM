@@ -132,7 +132,7 @@ void keyboard_handler() {
     menu_handle_keyboard(scancode);
 
     if (state == GAME) {
-        return;
+        keyboard_handle_input(scancode);
     }
 }
 

@@ -3,7 +3,6 @@
 
 #include <lcom/lcf.h>
 #include "game.h"
-#include "key_map.h"
 #include "../sprites/sprite.h"
 
 extern Sprite* logo;

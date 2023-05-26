@@ -4,6 +4,7 @@
 #include <lcom/lcf.h>
 #include "clock.h"
 #include "../sprites/sprite.h"
+#include "../devices/keyboard/key_map.h"
 
 extern Sprite *board_img;
 extern Sprite *sel_img;
@@ -52,6 +53,7 @@ static bool selected; // true if a piece is selected, false otherwise
 static int sel_row = -1, sel_col = -1; // selected piece coordinates
 static Piece prev[8][8]; // previous board matrix
 static bool game_over; // true if game is over, false otherwise
+static int kbd_row = -1, kbd_col = -1;
 
 
 void load_board();
@@ -80,7 +82,7 @@ void move_piece(int row, int col);
 
 void mouse_move_piece(int xf, int yf);
 
-
+void keyboard_handle_input(uint8_t scancode);
 
 bool is_valid_move(int xf, int yf);
 

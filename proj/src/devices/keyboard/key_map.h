@@ -7,6 +7,8 @@
 #define KEY_DOWN 0x50
 #define KEY_Z 0x2C
 
+#define KEY_BACKSPACE 0x0E
+
 #define KEY_A 0x1E
 #define KEY_B 0x30
 #define KEY_C 0x2E
