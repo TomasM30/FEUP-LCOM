@@ -33,7 +33,8 @@ void load_board() {
 
     copy_board(prev, board);
 
-    deselect_piece();  
+    deselect_piece(); 
+    game_over = false; 
     white_turn = true;
 
     clock_init();
@@ -216,10 +217,16 @@ void keyboard_handle_input(uint8_t scancode) {
 
     if (!selected && kbd_row != -1 && kbd_col != -1) {
         select_piece(kbd_row, kbd_col);
+        kbd_row = -1;
+        kbd_col = -1;
         return;
     }
 
-    if (kbd_row != -1 && kbd_col != -1) move_piece(kbd_row, kbd_col);
+    if (kbd_row != -1 && kbd_col != -1) {
+        move_piece(kbd_row, kbd_col);
+        kbd_row = -1;
+        kbd_col = -1;
+    }
 
     return;
 }
