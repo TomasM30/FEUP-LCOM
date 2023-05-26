@@ -47,10 +47,35 @@ void clock_update() {
     }
 }
 
+void clock_stop() {
+    white_clock.running = false;
+    black_clock.running = false;
+}
+
 int draw_clock() {
     if (draw_sprite(clock_background, 940, 34)) return 1;
 
+    if (draw_sprite(numbers[black_clock.time.minutes], 990, 44)) return 1;
+
+    if (draw_sprite(numbers[black_clock.time.seconds / 10], 1020, 44)) return 1;
+
+    if (draw_sprite(numbers[black_clock.time.seconds % 10], 1040, 44)) return 1;
+
+
     if (draw_sprite(clock_background, 940, 790)) return 1;
 
+    if (draw_sprite(numbers[white_clock.time.minutes], 990, 800)) return 1;
+
+    if (draw_sprite(numbers[white_clock.time.seconds / 10], 1020, 800)) return 1;
+
+    if (draw_sprite(numbers[white_clock.time.seconds % 10], 1040, 800)) return 1;
+
     return 0;
+}
+
+bool clock_timeout() {
+    if (white_clock.time.minutes == 0 && white_clock.time.seconds == 0) return true;
+    if (black_clock.time.minutes == 0 && black_clock.time.seconds == 0) return true;
+    
+    return false;
 }

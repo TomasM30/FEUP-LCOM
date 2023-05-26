@@ -20,7 +20,6 @@ extern struct packet packet;
 extern int mouse_x, mouse_y;
 
 extern GameState state;
-extern bool selected;
 
 extern uint8_t date_rtc[3], time_rtc[3];
 

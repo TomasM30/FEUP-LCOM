@@ -4,8 +4,10 @@
 #include <lcom/lcf.h>
 #include "clock.h"
 #include "../sprites/sprite.h"
+#include "../devices/keyboard/key_map.h"
 
 extern Sprite *board_img;
+extern Sprite *sel_img;
 extern Sprite *bB; 
 extern Sprite *bK;      
 extern Sprite *bN;
@@ -50,6 +52,8 @@ static bool white_turn; // true if white's turn, false if black's turn
 static bool selected; // true if a piece is selected, false otherwise
 static int sel_row = -1, sel_col = -1; // selected piece coordinates
 static Piece prev[8][8]; // previous board matrix
+static bool game_over; // true if game is over, false otherwise
+static int kbd_row = -1, kbd_col = -1;
 
 
 void load_board();
@@ -64,21 +68,42 @@ void select_piece(int row, int col);
 
 void mouse_select_piece(int x, int y);
 
+void keyboard_select_piece();
+
 void deselect_piece();
 
 bool is_selected();
+
+Position get_selected();
+
+int draw_selected();
 
 void move_piece(int row, int col);
 
 void mouse_move_piece(int xf, int yf);
 
+void keyboard_handle_input(uint8_t scancode);
+
 bool is_valid_move(int xf, int yf);
 
 Position *get_valid_moves(int *size);
 
+Position *get_moves(int *size, int row, int col);
+
+Position get_king_position();
+
+bool is_check();
+
+bool can_move(int row, int col);
+
+bool is_checkmate();
+
 void copy_board(Piece dest[8][8], Piece src[8][8]);
 
 void undo_move();
+
+void set_game_over();
+
 
 /* Piece movement functions */
 

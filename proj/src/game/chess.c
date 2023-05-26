@@ -33,6 +33,8 @@ void load_board() {
 
     copy_board(prev, board);
 
+    deselect_piece(); 
+    game_over = false; 
     white_turn = true;
 
     clock_init();
@@ -81,6 +83,8 @@ int draw_pieces() {
 }
 
 void select_piece(int row, int col) {
+    if (game_over) return;
+    
     Piece piece = board[row][col];
 
     if (piece.type == EMPTY) return;
@@ -121,7 +125,21 @@ bool is_selected() {
     return selected;
 }
 
+Position get_selected() {
+    return (Position) {sel_row, sel_col};
+}
+
+int draw_selected() {
+    if (!selected) return 0;
+
+    if (draw_sprite(sel_img, sel_col * SQUARE_SIZE, sel_row * SQUARE_SIZE)) return 1;
+
+    return 0;
+}
+
 void move_piece(int row, int col) {
+    if (game_over) return;
+    
     if (!selected) return;
 
     if (row == sel_row && col == sel_col) return;
@@ -130,6 +148,14 @@ void move_piece(int row, int col) {
         copy_board(prev, board);
         board[row][col] = board[sel_row][sel_col];
         board[sel_row][sel_col] = (Piece) {EMPTY, UNDEFINED};
+
+        Piece piece = board[row][col];
+        if (piece.type == PAWN) {
+            if (row == 0 || row == 7) {
+                board[row][col] = (Piece) {QUEEN, piece.color};
+            }
+        }
+
         white_turn = !white_turn;
         clock_set(white_turn);   
     }
@@ -152,17 +178,79 @@ void mouse_move_piece(int xf, int yf) {
     return;
 }
 
+void keyboard_handle_input(uint8_t scancode) {
+    switch (scancode) {
+        case KEY_BACKSPACE:
+            deselect_piece();
+            kbd_row = -1; 
+            kbd_col = -1;
+            break;
+        
+        case KEY_1: 
+            kbd_row = 7; break;
+        case KEY_2: 
+            kbd_row = 6; break;
+        case KEY_3: 
+            kbd_row = 5; break;
+        case KEY_4: 
+            kbd_row = 4; break;
+        case KEY_5: 
+            kbd_row = 3; break;
+        case KEY_6: 
+            kbd_row = 2; break;
+        case KEY_7: 
+            kbd_row = 1; break;
+        case KEY_8: 
+            kbd_row = 0; break;
+        case KEY_A: 
+            kbd_col = 0; break;
+        case KEY_B: 
+            kbd_col = 1; break;
+        case KEY_C: 
+            kbd_col = 2; break;
+        case KEY_D: 
+            kbd_col = 3; break;
+        case KEY_E: 
+            kbd_col = 4; break;
+        case KEY_F: 
+            kbd_col = 5; break;
+        case KEY_G: 
+            kbd_col = 6; break;
+        case KEY_H: 
+            kbd_col = 7; break;
+
+        default:
+            break;        
+    }
+
+    if (!selected && kbd_row != -1 && kbd_col != -1) {
+        select_piece(kbd_row, kbd_col);
+        kbd_row = -1;
+        kbd_col = -1;
+        return;
+    }
+
+    if (kbd_row != -1 && kbd_col != -1) {
+        move_piece(kbd_row, kbd_col);
+        kbd_row = -1;
+        kbd_col = -1;
+    }
+
+    return;
+}
+
 bool is_valid_move(int row, int col) {
     int size;
     Position *valid_moves = get_valid_moves(&size);
 
     for (int i = 0; i < size; i++) {
-        if (valid_moves[i].row == row && valid_moves[i].col == col) {
+        if (valid_moves[i].row == row && valid_moves[i].col == col && can_move(row, col)) {
             free(valid_moves);
             return true;
         }
     }
 
+    free(valid_moves);
     return false;
 }
 
@@ -188,23 +276,141 @@ Position *get_valid_moves(int *size) {
     }
 }
 
+Position *get_moves(int *size, int row, int col) {
+    int temp_row = sel_row;
+    int temp_col = sel_col;
+
+    sel_row = row;
+    sel_col = col;
+
+    Position *valid_moves = get_valid_moves(size);
+
+    sel_row = temp_row;
+    sel_col = temp_col;
+
+    return valid_moves;
+}
+
+Position get_king_position() {
+    for (int row = 0; row < 8; row++) {
+        for (int col = 0; col < 8; col++) {
+            Piece piece = board[row][col];
+
+            if (piece.type == KING && piece.color == (white_turn ? WHITE : BLACK)) {
+                return (Position) {row, col};
+            }
+        }
+    }
+
+    return (Position) {-1, -1};
+}
+
+bool is_check() {
+    Position king_pos = get_king_position();
+
+    for (int i = 0; i < 8; i++) {
+        for (int j = 0; j < 8; j++) {
+            Piece piece = board[i][j];
+
+            if (piece.type == EMPTY) continue;
+
+            if (piece.color == (white_turn ? BLACK : WHITE)) {
+                int size;
+                Position *valid_moves = get_moves(&size, i, j);
+
+                for (int k = 0; k < size; k++) {
+                    if (valid_moves[k].row == king_pos.row && valid_moves[k].col == king_pos.col) {
+                        free(valid_moves);
+                        return true;
+                    }
+                }
+
+                free(valid_moves);
+            }
+        }
+    }
+
+    return false;
+}
+
+bool can_move(int row, int col) {
+    Piece temp[8][8];
+    copy_board(temp, board);
+
+    board[row][col] = board[sel_row][sel_col];
+    board[sel_row][sel_col] = (Piece) {EMPTY, UNDEFINED};    
+
+    bool check = is_check();
+
+    copy_board(board, temp);
+
+    return !check;
+}
+
+bool is_checkmate() {
+    if (!is_check()) return false;
+    
+    for (int i = 0; i < 8; i++) {
+        for (int j = 0; j < 8; j++) {            
+            Piece piece = board[i][j];
+
+            if (piece.type == EMPTY) continue;
+
+            if (piece.color == (white_turn ? WHITE : BLACK)) {
+                int size;
+                Position *valid_moves = get_moves(&size, i, j);
+
+                int temp_row = sel_row;
+                int temp_col = sel_col;
+
+                sel_row = i;
+                sel_col = j;
+
+                for (int k = 0; k < size; k++) {
+                    if (can_move(valid_moves[k].row, valid_moves[k].col)) {
+                        free(valid_moves);
+                        return false;
+                    }
+                }
+
+                sel_row = temp_row;
+                sel_col = temp_col;
+
+                free(valid_moves);
+            }
+        }
+    }
+
+    return true;
+}
+
 void copy_board(Piece dest[8][8], Piece src[8][8]) {
     for (int i = 0; i < 8; i++) {
-        memcpy(dest[i], src[i], 8 * sizeof(Piece));
+        memcpy(&dest[i], src[i], 8 * sizeof(Piece));
     }
 
     return;
 }
 
 void undo_move() {
+    if (game_over) return;  
+    
     if (memcmp(board, prev, 8 * 8 * sizeof(Piece)) == 0) return;
     
     copy_board(board, prev);
     white_turn = !white_turn;
+    selected = false;
     clock_set(white_turn);
 
     return;
 }
+
+void set_game_over() {
+    game_over = true;
+    selected = false;
+    clock_stop();
+}
+
 
 /* Piece movement functions */
 

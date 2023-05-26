@@ -2,9 +2,15 @@
 
 void menu_handle_mouse() {    
     if (state == MENU) {
-        if (mouse_clicked_button(single_machine)) state = GAME;
+        if (mouse_clicked_button(single_machine)) {
+            state = GAME;
+            menu_index = 0;
+        }
 
-        if (mouse_clicked_button(double_machine)) state = GAME;
+        if (mouse_clicked_button(double_machine)) {
+            state = GAME;
+            menu_index = 0;
+        }
         
         if (mouse_clicked_button(quit)) state = QUIT;
     }
@@ -12,6 +18,7 @@ void menu_handle_mouse() {
     if (state == GAME) {
         if (mouse_clicked_button(return_button)) {
             state = MENU;
+            menu_index = 0;
             load_board();
         }
 
@@ -21,15 +28,45 @@ void menu_handle_mouse() {
     }
 }
 
-void menu_handle_keyboard() {
+void menu_handle_keyboard(uint8_t scancode) {
     if (state == MENU) {
-        if (scancode == KBC_BRK_ESC_KEY) state = QUIT;
+        if (scancode == KEY_ESC) state = QUIT;
+
+        if (scancode == KEY_UP) menu_index = (menu_index - 1) % 3;
+            
+        if (scancode == KEY_DOWN) menu_index = (menu_index + 1) % 3;
+
+        if (scancode == KEY_ENTER) {
+            if (menu_index == 0) state = GAME;
+            if (menu_index == 1) state = GAME;
+            if (menu_index == 2) state = QUIT;
+
+            menu_index = 0;
+        }
     }
 
-    if (state == GAME) {
-        if (scancode == KBC_BRK_ESC_KEY) { 
+    else if (state == GAME) {
+        if (scancode == KEY_ESC) { 
             state = MENU;
             load_board();
+        }
+
+        if (scancode == KEY_Z) undo_move();
+
+        if (scancode == KEY_UP) 
+            menu_index = (menu_index - 1) % 2;
+
+        if (scancode == KEY_DOWN)
+            menu_index = (menu_index + 1) % 2;
+
+        if (scancode == KEY_ENTER) {
+            if (menu_index == 0) {
+                state = MENU;
+                menu_index = 0;
+                load_board();
+            }
+
+            if (menu_index == 1) undo_move();
         }
     }
 }

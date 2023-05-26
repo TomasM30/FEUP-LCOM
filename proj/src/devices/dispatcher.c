@@ -117,13 +117,19 @@ void timer_handler() {
 
     if (timer_counter % 30 == 0 && state == GAME) {
         clock_update();
+        
+        if (clock_timeout()) set_game_over();
     }
+
+    if (is_checkmate()) set_game_over();
 
     if (draw_background()) return;
 
     if (draw_menu()) return;
     
     if (draw_board()) return;
+
+    if (draw_selected()) return;
 
     if (draw_pieces()) return;
 
@@ -136,7 +142,11 @@ void timer_handler() {
 void keyboard_handler() {
     keyboard_ih();
 
-    menu_handle_keyboard();
+    menu_handle_keyboard(scancode);
+
+    if (state == GAME) {
+        keyboard_handle_input(scancode);
+    }
 }
 
 void mouse_handler() {
@@ -154,6 +164,10 @@ void mouse_handler() {
             if (packet.lb) {
                 if (is_selected()) mouse_move_piece(mouse_x, mouse_y);
                 else mouse_select_piece(mouse_x, mouse_y);
+            }
+
+            if (packet.rb) {
+                deselect_piece();
             }
         } 
     }
