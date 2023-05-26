@@ -33,6 +33,7 @@ void load_board() {
 
     copy_board(prev, board);
 
+    deselect_piece();  
     white_turn = true;
 
     clock_init();
@@ -228,12 +229,13 @@ bool is_valid_move(int row, int col) {
     Position *valid_moves = get_valid_moves(&size);
 
     for (int i = 0; i < size; i++) {
-        if (valid_moves[i].row == row && valid_moves[i].col == col) {
+        if (valid_moves[i].row == row && valid_moves[i].col == col && can_move(row, col)) {
             free(valid_moves);
             return true;
         }
     }
 
+    free(valid_moves);
     return false;
 }
 
@@ -259,15 +261,88 @@ Position *get_valid_moves(int *size) {
     }
 }
 
+Position *get_moves(int *size, int row, int col) {
+    int temp_row = sel_row;
+    int temp_col = sel_col;
+
+    sel_row = row;
+    sel_col = col;
+
+    Position *valid_moves = get_valid_moves(size);
+
+    sel_row = temp_row;
+    sel_col = temp_col;
+
+    return valid_moves;
+}
+
+Position get_king_position() {
+    for (int row = 0; row < 8; row++) {
+        for (int col = 0; col < 8; col++) {
+            Piece piece = board[row][col];
+
+            if (piece.type == KING && piece.color == (white_turn ? WHITE : BLACK)) {
+                return (Position) {row, col};
+            }
+        }
+    }
+
+    return (Position) {-1, -1};
+}
+
+bool is_check() {
+    Position king_pos = get_king_position();
+
+    for (int i = 0; i < 8; i++) {
+        for (int j = 0; j < 8; j++) {
+            Piece piece = board[i][j];
+
+            if (piece.type == EMPTY) continue;
+
+            if (piece.color == (white_turn ? BLACK : WHITE)) {
+                int size;
+                Position *valid_moves = get_moves(&size, i, j);
+
+                for (int k = 0; k < size; k++) {
+                    if (valid_moves[k].row == king_pos.row && valid_moves[k].col == king_pos.col) {
+                        free(valid_moves);
+                        return true;
+                    }
+                }
+
+                free(valid_moves);
+            }
+        }
+    }
+
+    return false;
+}
+
+bool can_move(int row, int col) {
+    Piece temp[8][8];
+    copy_board(temp, board);
+
+    board[row][col] = board[sel_row][sel_col];
+    board[sel_row][sel_col] = (Piece) {EMPTY, UNDEFINED};    
+
+    bool check = is_check();
+
+    copy_board(board, temp);
+
+    return !check;
+}
+
 void copy_board(Piece dest[8][8], Piece src[8][8]) {
     for (int i = 0; i < 8; i++) {
-        memcpy(dest[i], src[i], 8 * sizeof(Piece));
+        memcpy(&dest[i], src[i], 8 * sizeof(Piece));
     }
 
     return;
 }
 
 void undo_move() {
+    if (game_over) return;  
+    
     if (memcmp(board, prev, 8 * 8 * sizeof(Piece)) == 0) return;
     
     copy_board(board, prev);
@@ -281,6 +356,7 @@ void undo_move() {
 void set_game_over(bool clock_timeout) {
     game_over = clock_timeout;
 }
+
 
 /* Piece movement functions */
 

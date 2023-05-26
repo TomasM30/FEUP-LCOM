@@ -88,11 +88,15 @@ bool is_valid_move(int xf, int yf);
 
 Position *get_valid_moves(int *size);
 
+Position *get_moves(int *size, int row, int col);
+
 Position get_king_position();
 
 bool is_check();
 
 bool is_checkmate();
+
+bool can_move(int row, int col);
 
 void copy_board(Piece dest[8][8], Piece src[8][8]);
 
