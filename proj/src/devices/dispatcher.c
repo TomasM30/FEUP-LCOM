@@ -116,6 +116,8 @@ void timer_handler() {
     
     if (draw_board()) return;
 
+    if (draw_selected()) return;
+
     if (draw_pieces()) return;
 
     if (mouse_draw_cursor()) return;
@@ -128,6 +130,10 @@ void keyboard_handler() {
     keyboard_ih();
 
     menu_handle_keyboard(scancode);
+
+    if (state == GAME) {
+        return;
+    }
 }
 
 void mouse_handler() {
@@ -145,6 +151,10 @@ void mouse_handler() {
             if (packet.lb) {
                 if (is_selected()) mouse_move_piece(mouse_x, mouse_y);
                 else mouse_select_piece(mouse_x, mouse_y);
+            }
+
+            if (packet.rb) {
+                deselect_piece();
             }
         } 
     }

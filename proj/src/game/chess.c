@@ -123,6 +123,18 @@ bool is_selected() {
     return selected;
 }
 
+Position get_selected() {
+    return (Position) {sel_row, sel_col};
+}
+
+int draw_selected() {
+    if (!selected) return 0;
+
+    if (draw_sprite(sel_img, sel_col * SQUARE_SIZE, sel_row * SQUARE_SIZE)) return 1;
+
+    return 0;
+}
+
 void move_piece(int row, int col) {
     if (game_over) return;
     
@@ -205,6 +217,7 @@ void undo_move() {
     
     copy_board(board, prev);
     white_turn = !white_turn;
+    selected = false;
     clock_set(white_turn);
 
     return;

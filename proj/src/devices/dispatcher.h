@@ -20,7 +20,6 @@ extern struct packet packet;
 extern int mouse_x, mouse_y;
 
 extern GameState state;
-extern bool selected;
 
 
 int subscribe_devices();

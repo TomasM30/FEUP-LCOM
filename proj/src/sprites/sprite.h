@@ -14,6 +14,7 @@
 #include "../imgs/buttons/undo.xpm"
 #include "../imgs/clock.xpm"
 #include "../imgs/board.xpm"
+#include "../imgs/selected.xpm"
 #include "../imgs/pieces/bB.xpm"
 #include "../imgs/pieces/bK.xpm"
 #include "../imgs/pieces/bN.xpm"
@@ -45,6 +46,7 @@ Sprite *quit;
 Sprite *undo;
 Sprite *clock_background;
 Sprite *board_img;
+Sprite *sel_img;
 Sprite *bB, *bK, *bN, *bP, *bQ, *bR, *wB, *wK, *wN, *wP, *wQ, *wR;
 Sprite *numbers[10];
 

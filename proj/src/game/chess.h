@@ -6,6 +6,7 @@
 #include "../sprites/sprite.h"
 
 extern Sprite *board_img;
+extern Sprite *sel_img;
 extern Sprite *bB; 
 extern Sprite *bK;      
 extern Sprite *bN;
@@ -65,13 +66,21 @@ void select_piece(int row, int col);
 
 void mouse_select_piece(int x, int y);
 
+void keyboard_select_piece();
+
 void deselect_piece();
 
 bool is_selected();
 
+Position get_selected();
+
+int draw_selected();
+
 void move_piece(int row, int col);
 
 void mouse_move_piece(int xf, int yf);
+
+
 
 bool is_valid_move(int xf, int yf);
 
