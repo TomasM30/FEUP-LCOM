@@ -47,6 +47,11 @@ void clock_update() {
     }
 }
 
+void clock_stop() {
+    white_clock.running = false;
+    black_clock.running = false;
+}
+
 int draw_clock() {
     if (draw_sprite(clock_background, 940, 34)) return 1;
 

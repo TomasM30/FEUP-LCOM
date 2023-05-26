@@ -27,6 +27,8 @@ void clock_set(bool white_turn);
 
 void clock_update();  
 
+void clock_stop();
+
 int draw_clock();
 
 bool clock_timeout();

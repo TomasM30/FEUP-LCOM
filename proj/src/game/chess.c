@@ -332,6 +332,43 @@ bool can_move(int row, int col) {
     return !check;
 }
 
+bool is_checkmate() {
+    if (!is_check()) return false;
+    
+    for (int i = 0; i < 8; i++) {
+        for (int j = 0; j < 8; j++) {            
+            Piece piece = board[i][j];
+
+            if (piece.type == EMPTY) continue;
+
+            if (piece.color == (white_turn ? WHITE : BLACK)) {
+                int size;
+                Position *valid_moves = get_moves(&size, i, j);
+
+                int temp_row = sel_row;
+                int temp_col = sel_col;
+
+                sel_row = i;
+                sel_col = j;
+
+                for (int k = 0; k < size; k++) {
+                    if (can_move(valid_moves[k].row, valid_moves[k].col)) {
+                        free(valid_moves);
+                        return false;
+                    }
+                }
+
+                sel_row = temp_row;
+                sel_col = temp_col;
+
+                free(valid_moves);
+            }
+        }
+    }
+
+    return true;
+}
+
 void copy_board(Piece dest[8][8], Piece src[8][8]) {
     for (int i = 0; i < 8; i++) {
         memcpy(&dest[i], src[i], 8 * sizeof(Piece));
@@ -353,8 +390,10 @@ void undo_move() {
     return;
 }
 
-void set_game_over(bool clock_timeout) {
-    game_over = clock_timeout;
+void set_game_over() {
+    game_over = true;
+    selected = false;
+    clock_stop();
 }
 
 

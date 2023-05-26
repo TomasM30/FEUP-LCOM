@@ -94,15 +94,15 @@ Position get_king_position();
 
 bool is_check();
 
-bool is_checkmate();
-
 bool can_move(int row, int col);
+
+bool is_checkmate();
 
 void copy_board(Piece dest[8][8], Piece src[8][8]);
 
 void undo_move();
 
-void set_game_over(bool clock_timeout);
+void set_game_over();
 
 
 /* Piece movement functions */
