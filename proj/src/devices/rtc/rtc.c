@@ -1,6 +1,7 @@
 #include "rtc.h"
 
 int rtc_hook_id;
+int read_already = 0;
 uint8_t date_rtc[3], time_rtc[3];
 
 int (rtc_subscribe_int)(uint8_t *bit_no){
@@ -69,6 +70,8 @@ int (read_datetime)(uint8_t reg){
 }
 
 int (rtc_ih)(){
+    if (read_already) return 0;
+
     uint32_t reg;
 
     sys_outb(RTC_ADDR_REG, RTC_C);
@@ -84,6 +87,10 @@ int (rtc_ih)(){
         read_datetime(RTC_DAY);
         read_datetime(RTC_MONTH);
         read_datetime(RTC_YEAR);
+    }
+
+    if(time_rtc[0] != 0 && time_rtc[1] != 0 && time_rtc[2] != 0){
+        read_already = 1;
     }
 
     return 0;

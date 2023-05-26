@@ -1,10 +1,12 @@
 {
     "C_Cpp.errorSquiggles": "disabled",
     "files.associations": {
+        "*.embeddedhtml": "html",
         "locale": "c",
         "string": "c",
         "__locale": "c",
         "chrono": "c",
-        "clock.h": "c"
+        "clock.h": "c",
+        "*.xpm": "cpp"
     }
 }

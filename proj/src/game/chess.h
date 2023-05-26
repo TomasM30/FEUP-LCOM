@@ -55,6 +55,8 @@ static Piece prev[8][8]; // previous board matrix
 static bool game_over; // true if game is over, false otherwise
 static int kbd_row = -1, kbd_col = -1;
 
+extern uint8_t time_rtc[3];
+
 
 void load_board();
 

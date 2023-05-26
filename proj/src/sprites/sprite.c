@@ -58,6 +58,7 @@ void load_sprites() {
     clock_background = create_sprite((xpm_map_t) clock_xpm);
     
     board_img = create_sprite((xpm_map_t) board_xpm);
+    board_dark_img = create_sprite((xpm_map_t) board_dark_xpm);
     sel_img= create_sprite((xpm_map_t) selected_xpm);
 
     bB = create_sprite((xpm_map_t) bB_xpm);
