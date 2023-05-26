@@ -148,6 +148,14 @@ void move_piece(int row, int col) {
         copy_board(prev, board);
         board[row][col] = board[sel_row][sel_col];
         board[sel_row][sel_col] = (Piece) {EMPTY, UNDEFINED};
+
+        Piece piece = board[row][col];
+        if (piece.type == PAWN) {
+            if (row == 0 || row == 7) {
+                board[row][col] = (Piece) {QUEEN, piece.color};
+            }
+        }
+
         white_turn = !white_turn;
         clock_set(white_turn);   
     }
