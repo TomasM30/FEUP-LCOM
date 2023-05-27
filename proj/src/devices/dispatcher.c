@@ -20,6 +20,11 @@ int subscribe_devices() {
 
     // subscribe rtc interrupts
 
+    if(rtc_subscribe_int(&irq_set_rtc)) {
+        printf("Error subscribing rtc interrupts\n");
+        return 1;
+    }
+
     return 0;
 }
 
@@ -43,6 +48,11 @@ int unsubscribe_devices() {
 
     // unsubscribe rtc interrupts
 
+    if(rtc_unsubscribe_int()) {
+        printf("Error unsubscribing rtc interrupts\n");
+        return 1;
+    }
+    
     return 0;
 }
 
@@ -168,5 +178,5 @@ void serial_port_handler() {
 }
 
 void rtc_handler() {
-    
+    rtc_ih();
 }

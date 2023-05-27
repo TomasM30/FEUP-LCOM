@@ -40,8 +40,12 @@ void load_board() {
     clock_init();
 }
 
+//TODO - return sometimes crashed the game
+//TODO - checkmate doesnt end the game, and check mechanics always higlight a not selected piece
+
 int draw_board() {
-    if (draw_sprite(board_img, 0, 0)) return 1;    
+    int dark_board_condition = (time_rtc[0] > 20 || time_rtc[0] < 8);
+    if (draw_sprite(dark_board_condition ? board_dark_img : board_img, 0, 0)) return 1;    
 
     return 0;
 }

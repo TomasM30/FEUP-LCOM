@@ -8,12 +8,12 @@
 #include "../imgs/background.xpm"
 #include "../imgs/logo.xpm"
 #include "../imgs/buttons/single_machine.xpm"
-#include "../imgs/buttons/double_machine.xpm"
 #include "../imgs/buttons/quit.xpm"
 #include "../imgs/buttons/return.xpm"
 #include "../imgs/buttons/undo.xpm"
 #include "../imgs/clock.xpm"
 #include "../imgs/board.xpm"
+#include "../imgs/board_dark.xpm"
 #include "../imgs/selected.xpm"
 #include "../imgs/pieces/bB.xpm"
 #include "../imgs/pieces/bK.xpm"
@@ -40,12 +40,13 @@ typedef struct {
 Sprite *cursor;
 Sprite *background;
 Sprite *logo;
-Sprite *single_machine, *double_machine;
+Sprite *single_machine;
 Sprite *return_button;
 Sprite *quit;
 Sprite *undo;
 Sprite *clock_background;
 Sprite *board_img;
+Sprite *board_dark_img;
 Sprite *sel_img;
 Sprite *bB, *bK, *bN, *bP, *bQ, *bR, *wB, *wK, *wN, *wP, *wQ, *wR;
 Sprite *numbers[10];
