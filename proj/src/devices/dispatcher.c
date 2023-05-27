@@ -121,7 +121,9 @@ void timer_handler() {
         if (clock_timeout()) set_game_over();
     }
 
-    if (is_checkmate()) set_game_over();
+    if (is_checkmate()) {
+        set_game_over();
+    }
 
     if (draw_background()) return;
 

@@ -41,7 +41,6 @@ void load_board() {
 }
 
 //TODO - return sometimes crashed the game
-//TODO - checkmate doesnt end the game, and check mechanics always higlight a not selected piece
 
 int draw_board() {
     int dark_board_condition = (time_rtc[0] > 20 || time_rtc[0] < 8);
@@ -347,7 +346,6 @@ bool can_move(int row, int col) {
     bool check = is_check();
 
     copy_board(board, temp);
-
     return !check;
 }
 
@@ -372,6 +370,10 @@ bool is_checkmate() {
 
                 for (int k = 0; k < size; k++) {
                     if (can_move(valid_moves[k].row, valid_moves[k].col)) {
+
+                        sel_row = temp_row;
+                        sel_col = temp_col;
+
                         free(valid_moves);
                         return false;
                     }
@@ -413,6 +415,9 @@ void set_game_over() {
     game_over = true;
     selected = false;
     clock_stop();
+
+    draw_sprite(white_turn ? black_wins : white_wins, 858, 400);
+    printf("draw_sprite\n");
 }
 
 
@@ -602,7 +607,7 @@ Position *get_valid_pawn_moves(int *size) {
         }
     }
 
-    if (board[sel_row][sel_col].color == WHITE) {
+    if (board[sel_row][sel_col].color == WHITE && sel_col - 1 >= 0 && sel_col + 1 <= 7) {
         if (board[sel_row - 1][sel_col].type == EMPTY) {
             moves[count++] = (Position) {sel_row - 1, sel_col};
         }

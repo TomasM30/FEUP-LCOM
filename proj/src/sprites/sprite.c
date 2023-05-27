@@ -83,6 +83,9 @@ void load_sprites() {
     numbers[7] = create_sprite((xpm_map_t) seven_xpm);
     numbers[8] = create_sprite((xpm_map_t) eight_xpm);
     numbers[9] = create_sprite((xpm_map_t) nine_xpm);
+
+    black_wins = create_sprite((xpm_map_t) black_wins_xpm);
+    white_wins = create_sprite((xpm_map_t) white_wins_xpm);
 }
 
 void dump_sprites() {
@@ -112,4 +115,7 @@ void dump_sprites() {
     for (int i = 0; i < 10; i++) {
         destroy_sprite(numbers[i]);
     }
+
+    destroy_sprite(black_wins);
+    destroy_sprite(white_wins);
 }

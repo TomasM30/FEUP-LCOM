@@ -28,6 +28,8 @@
 #include "../imgs/pieces/wQ.xpm"
 #include "../imgs/pieces/wR.xpm"
 #include "../imgs/chars/numbers.xpm"
+#include "../imgs/black_wins.xpm"
+#include "../imgs/white_wins.xpm"
 
 #define SQUARE_SIZE 108
 
@@ -50,6 +52,8 @@ Sprite *board_dark_img;
 Sprite *sel_img;
 Sprite *bB, *bK, *bN, *bP, *bQ, *bR, *wB, *wK, *wN, *wP, *wQ, *wR;
 Sprite *numbers[10];
+Sprite *black_wins;
+Sprite *white_wins;
 
 
 Sprite *create_sprite(xpm_map_t xpm);
