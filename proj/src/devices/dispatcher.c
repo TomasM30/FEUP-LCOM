@@ -179,5 +179,4 @@ void serial_port_handler() {
 
 void rtc_handler() {
     rtc_ih();
-    printf("Time: %x:%x:%x\n", time_rtc[2], time_rtc[1], time_rtc[0]);
 }
