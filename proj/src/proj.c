@@ -11,6 +11,8 @@ int main(int argc, char *argv[]) {
     if (lcf_start(argc, argv))
         return 1;
 
+    lcf_trace_calls("/home/lcom/labs/proj/src/trace.txt");
+
     // LCF clean up tasks
     // [must be the last statement before return]
     lcf_cleanup();

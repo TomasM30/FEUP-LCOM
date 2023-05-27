@@ -19,6 +19,8 @@
         "string_view": "c",
         "iterator": "c",
         "string": "c",
-        "vector": "c"
+        "vector": "c",
+        "SERIALPORT.H": "cpp",
+        "__locale": "c"
     }
 }

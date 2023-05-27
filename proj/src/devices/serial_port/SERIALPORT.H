@@ -29,11 +29,15 @@
 #define IIR_NO_INT BIT(0)
 #define IIR_RDA BIT(2)
 #define IIR_THRE BIT(1)
+#define IIR_ID BIT(1)|BIT(2)|BIT(3)
+#define IIR_TIMEOUT BIT(3)|BIT(2)
 #define LSR_THRE BIT(5)
 #define LSR_RDA BIT(0)
 #define FCR_ENABLE BIT(0)
 #define FCR_CLEAR_RCVR BIT(1)
 #define FCR_CLEAR_XMIT BIT(2)
+#define LCR_CONFIG BIT(0)|BIT(1)|BIT(3)
+
 
 
 #endif

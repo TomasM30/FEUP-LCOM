@@ -15,9 +15,9 @@ int serial_port_end();
 int serial_port_exit();
 int serial_port_ih();
 int serial_port_send_data(uint8_t data);
-int serial_port_send_queue_data();
 int serial_port_read_data();
-void drawCoopMoves();
+int serial_port_send_queue_data();
+void printData();
 
 #endif
 

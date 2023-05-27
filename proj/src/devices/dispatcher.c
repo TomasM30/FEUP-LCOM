@@ -105,7 +105,8 @@ int dispatcher() {
                 default:
                     break;
             }
-        } else {
+        }
+         else {
             printf("Error received message was not notification\n");
         }
     }
@@ -154,7 +155,9 @@ void timer_handler() {
 
 void keyboard_handler() {
     keyboard_ih();
-
+    if(scancode == KBC_BRK_Q_KEY){
+        serial_port_send_data(85);
+    }
     if (scancode == KBC_BRK_ESC_KEY) {
         state = QUIT;
     }
@@ -183,10 +186,9 @@ void mouse_handler() {
 }
 
 void serial_port_handler() {
-    serial_port_ih();
+    serial_port_ih();  
 }
 
 void rtc_handler() {
     rtc_ih();
-    printf("Time: %x:%x:%x\n", time_rtc[2], time_rtc[1], time_rtc[0]);
 }

@@ -2,6 +2,7 @@
 #define I8042_H
 
 #define KBC_BRK_ESC_KEY 0x81 
+#define KBC_BRK_Q_KEY 0x10
 #define KBC_MSB_SCNCD BIT(7)
 #define KEYBOARD_IRQ 1 
 #define MOUSE_IRQ 12 

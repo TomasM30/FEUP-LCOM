@@ -6,7 +6,6 @@ uint8_t date_rtc[3], time_rtc[3];
 int (rtc_subscribe_int)(uint8_t *bit_no){
     rtc_hook_id = 3;
     *bit_no = rtc_hook_id;
-    printf("sure\n");
 
     if (sys_irqsetpolicy(RTC_IRQ, (IRQ_REENABLE | IRQ_EXCLUSIVE), &rtc_hook_id) != 0) return 1;
     if (enable_update_interrupts(true) != 0) return 1;
