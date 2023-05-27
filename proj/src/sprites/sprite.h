@@ -8,7 +8,6 @@
 #include "../imgs/background.xpm"
 #include "../imgs/logo.xpm"
 #include "../imgs/buttons/single_machine.xpm"
-#include "../imgs/buttons/double_machine.xpm"
 #include "../imgs/buttons/quit.xpm"
 #include "../imgs/buttons/return.xpm"
 #include "../imgs/buttons/undo.xpm"
@@ -41,7 +40,7 @@ typedef struct {
 Sprite *cursor;
 Sprite *background;
 Sprite *logo;
-Sprite *single_machine, *double_machine;
+Sprite *single_machine;
 Sprite *return_button;
 Sprite *quit;
 Sprite *undo;
