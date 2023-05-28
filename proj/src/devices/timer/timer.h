@@ -4,6 +4,11 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+/** @defgroup timer timer
+ *  @brief Functions to work with the i8254 timer
+*/
+
+
 /**
  * @brief Enumerated type for specifying the timer value initialization
  */

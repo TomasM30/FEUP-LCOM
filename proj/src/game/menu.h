@@ -5,6 +5,10 @@
 #include "game.h"
 #include "../sprites/sprite.h"
 
+/** @defgroup menu menu
+ *  @brief Functions for drawing the menu
+*/
+
 extern Sprite* logo;
 extern Sprite* single_machine;
 extern Sprite* quit;

@@ -25,6 +25,10 @@
 #define RTC_B_UIE BIT(4)
 #define RTC_C_UF BIT(4)
 
+/** @defgroup rtc rtc
+ * @brief Functions for interacting with the RTC
+*/
+
 /**
  * @brief Subscribes and enables RTC interrupts
  * @param bit_no Pointer to the variable where the bit mask will be stored

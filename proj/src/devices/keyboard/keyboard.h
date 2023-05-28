@@ -5,6 +5,10 @@
 #include "kbc.h"
 #include "key_map.h"
 
+/** @defgroup keyboard keyboard
+ * @brief Functions for interacting with the keyboard
+*/
+
 /**
  * @brief Subscribes and enables keyboard interrupts
  * @param bit_no Pointer to the variable where the bit mask will be stored

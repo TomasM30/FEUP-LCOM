@@ -6,6 +6,10 @@
 #include "../video/video.h"
 #include "../../sprites/sprite.h"
 
+/** @defgroup mouse mouse
+ *  @brief Functions for interacting with the mouse
+*/
+
 extern Sprite *cursor; /**< @brief Cursor's sprite */
 
 /**

@@ -6,6 +6,10 @@
 #include "../sprites/sprite.h"
 #include "../devices/keyboard/key_map.h"
 
+/** @defgroup chess chess
+ *  @brief Functions that compose the game's logic
+*/
+
 extern Sprite *board_img;
 extern Sprite *sel_img;
 extern Sprite *bB; 

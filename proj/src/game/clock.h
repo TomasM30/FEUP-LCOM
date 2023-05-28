@@ -4,6 +4,10 @@
 #include <lcom/lcf.h>
 #include "../sprites/sprite.h"
 
+/** @defgroup clock clock
+ *  @brief Functions for using the game clock
+*/
+
 extern Sprite* clock_background;
 extern Sprite *numbers[10];
 

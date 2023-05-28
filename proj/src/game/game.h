@@ -10,6 +10,10 @@
 #include "../devices/dispatcher.h"
 #include "../sprites/sprite.h"
 
+/** @defgroup game game
+ *  @brief Functions that create and run the game loop
+*/
+
 extern Sprite *background;
 
 GameState state; /*!< State of the game*/ 

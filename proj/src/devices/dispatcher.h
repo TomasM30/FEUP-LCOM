@@ -11,6 +11,10 @@
 
 #include "../game/game.h"
 
+/** @defgroup dispatcher dispatcher
+ *  @brief Functions for handling the devices' interrupts
+*/
+
 static uint8_t irq_set_timer, irq_set_keyboard, irq_set_mouse, irq_set_rtc; /*!< IRQ set for all different devices*/
 extern int timer_counter; /*!< Counter for the timer*/
 extern uint8_t scancode; /*!< Scancode of the last key pressed*/

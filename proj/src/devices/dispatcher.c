@@ -1,13 +1,14 @@
 #include "dispatcher.h"
 
 int subscribe_devices() {
-    if (timer_subscribe_int(&irq_set_timer)) {
-        printf("Error subscribing timer interrupts\n");
+    
+    if (keyboard_subscribe_int(&irq_set_keyboard)) {
+        printf("Error subscribing keyboard interrupts\n");
         return 1;
     }
 
-    if (keyboard_subscribe_int(&irq_set_keyboard)) {
-        printf("Error subscribing keyboard interrupts\n");
+    if (timer_subscribe_int(&irq_set_timer)) {
+        printf("Error subscribing timer interrupts\n");
         return 1;
     }
 

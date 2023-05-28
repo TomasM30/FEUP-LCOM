@@ -6,6 +6,9 @@
 
 #define DELAY_US 20000
 
+/** @defgroup kbc kbc
+ *  @brief Functions for using the KBC
+*/
 
 /**
  * @brief Gets the status of the KBC
