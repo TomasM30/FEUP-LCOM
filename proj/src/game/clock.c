@@ -11,14 +11,8 @@ void clock_init() {
 }
 
 void clock_set(bool white_turn) {
-    if (white_turn) {
-        white_clock.running = true;
-        black_clock.running = false;
-    }
-    else {
-        white_clock.running = false;
-        black_clock.running = true;
-    }
+    white_clock.running = white_turn;
+    black_clock.running = !white_turn;
 }
 
 void clock_update() {

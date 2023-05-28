@@ -25,11 +25,42 @@
 #define RTC_B_UIE BIT(4)
 #define RTC_C_UF BIT(4)
 
+/**
+ * @brief Subscribes and enables RTC interrupts
+ * @param bit_no Pointer to the variable where the bit mask will be stored
+ * @return 0 upon success, 1 otherwise
+*/
 int (rtc_subscribe_int)(uint8_t *bit_no);
+
+/**
+ * @brief Unsubscribes RTC interrupts
+ * @return 0 upon success, 1 otherwise
+*/
 int (rtc_unsubscribe_int)();
+
+/**
+ * @brief Checks if the RTC is updating
+ * @return 1 if the RTC is updating, 0 otherwise
+*/
 int (can_read_datetime)();
+
+/**
+ * @brief Reads the date and time from the RTC
+ * @param reg The date/time unit to read
+ * @return 0 upon success, 1 otherwise
+*/
 int (read_datetime)(uint8_t reg);
+
+/**
+ * @brief RTC interrupt handler
+*/
 int (rtc_ih)();
+
+/**
+ * @brief Enables or disables RTC update interrupts
+ * @param enable True to enable, false to disable
+ * @return 0 upon success, 1 otherwise
+*/
 int (enable_update_interrupts)(bool enable);
 
 

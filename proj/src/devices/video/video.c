@@ -73,22 +73,6 @@ int (vg_draw_pixel)(uint16_t x, uint16_t y, uint32_t color) {
     return 0;
 }
 
-int (vg_draw_hline)(uint16_t x, uint16_t y, uint16_t len, uint32_t color) {
-    for (int i = 0; i < len; i++) {
-        if (vg_draw_pixel(x + i, y, color) != 0) return 1;
-    }
-
-    return 0;
-}
-
-int (vg_draw_rectangle)(uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint32_t color) {
-    for (int i = 0; i < height; i++) {
-        if (vg_draw_hline(x, y + i, width, color) != 0) return 1;
-    }
-
-    return 0;
-}
-
 int (vg_display_xpm)(xpm_map_t xpm, uint16_t x, uint16_t y) {
     xpm_image_t img;
 
@@ -117,43 +101,4 @@ int (vg_erase_xpm)(xpm_map_t xpm, uint16_t x, uint16_t y) {
     }
 
     return 0;
-}
-
-
-/* Auxiliary color functions */
-
-uint8_t (get_memory_model)() {
-    return mode_info.MemoryModel;
-}
-
-uint32_t (direct_mode)(uint32_t R, uint32_t G, uint32_t B) {
-  return (R << mode_info.RedFieldPosition) | (G << mode_info.GreenFieldPosition) | (B << mode_info.BlueFieldPosition);
-}
-
-uint32_t (indexed_mode)(uint16_t col, uint16_t row, uint8_t step, uint32_t first, uint8_t n) {
-  return (first + (row * n + col) * step) % (1 << mode_info.BitsPerPixel);
-}
-
-uint32_t (Red)(unsigned j, uint8_t step, uint32_t first) {
-  return (R(first) + j * step) % (1 << mode_info.RedMaskSize);
-}
-
-uint32_t (Green)(unsigned i, uint8_t step, uint32_t first) {
-  return (G(first) + i * step) % (1 << mode_info.GreenMaskSize);
-}
-
-uint32_t (Blue)(unsigned j, unsigned i, uint8_t step, uint32_t first) {
-  return (B(first) + (i + j) * step) % (1 << mode_info.BlueMaskSize);
-}
-
-uint32_t (R)(uint32_t first){
-  return ((1 << mode_info.RedMaskSize) - 1) & (first >> mode_info.RedFieldPosition);
-}
-
-uint32_t (G)(uint32_t first){
-  return ((1 << mode_info.GreenMaskSize) - 1) & (first >> mode_info.GreenFieldPosition);
-}
-
-uint32_t (B)(uint32_t first){
-  return ((1 << mode_info.BlueMaskSize) - 1) & (first >> mode_info.BlueFieldPosition);
 }

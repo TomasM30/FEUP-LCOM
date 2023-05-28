@@ -34,8 +34,7 @@ void menu_handle_keyboard(uint8_t scancode) {
 
         if (scancode == KEY_ENTER) {
             if (menu_index == 0) state = GAME;
-            if (menu_index == 1) state = GAME;
-            if (menu_index == 2) state = QUIT;
+            if (menu_index == 1) state = QUIT;
 
             menu_index = 0;
         }
