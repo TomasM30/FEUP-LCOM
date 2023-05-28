@@ -415,9 +415,6 @@ void set_game_over() {
     game_over = true;
     selected = false;
     clock_stop();
-
-    draw_sprite(white_turn ? black_wins : white_wins, 858, 400);
-    printf("draw_sprite\n");
 }
 
 

@@ -10,44 +10,71 @@ static uint8_t *second_buffer;
 static uint16_t hres, vres;
 static uint8_t bytes_per_pixel;
 
+
+/**
+ * @brief Initializes the VBE to the specified mode and gets access to the vram
+ * @param mode VBE mode to set
+ * @return 0 upon success, 1 otherwise
+*/
 int (vg_start)(uint16_t mode);
 
+/**
+ * @brief Copies the second buffer to the video memory and clears the second buffer
+ * @return 0 upon success, 1 otherwise
+*/
 int (vg_copy_buffer)();
 
+/**
+ * @brief Gets the horizontal resolution of the current mode
+ * @return Horizontal resolution of the current mode
+*/
 uint16_t (get_hres)();
 
+/**
+ * @brief Gets the vertical resolution of the current mode
+ * @return Vertical resolution of the current mode
+*/
 int16_t (get_vres)();
 
+/**
+ * @brief Gets the number of bytes per pixel of the current mode
+ * @return Number of bytes per pixel of the current mode
+*/
 uint8_t (get_bytes_per_pixel)();
 
+/**
+ * @brief Normalizes the color of different modes to the 8-8-8 RGB mode
+ * @param color Color to normalize
+ * @return 0 upon success, 1 otherwise
+*/
 void (normalize_color)(uint32_t *color);
 
+/**
+ * @brief Draws a pixel in the specified coordinates with the specified color
+ * @param x X coordinate of the pixel
+ * @param y Y coordinate of the pixel
+ * @param color Color of the pixel
+ * @return 0 upon success, 1 otherwise
+*/
 int (vg_draw_pixel)(uint16_t x, uint16_t y, uint32_t color);
 
-int (vg_draw_hline)(uint16_t x, uint16_t y, uint16_t len, uint32_t color);
-
-int (vg_draw_rectangle)(uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint32_t color);
-
+/**
+ * @brief Displays an xpm in the specified coordinates
+ * @param xpm Xpm to display
+ * @param x X coordinate of the xpm
+ * @param y Y coordinate of the xpm
+ * @return 0 upon success, 1 otherwise
+*/
 int (vg_display_xpm)(xpm_map_t xpm, uint16_t x, uint16_t y);
 
+/**
+ * @brief Erases an xpm in the specified coordinates
+ * @param xpm Xpm to erase
+ * @param x X coordinate of the xpm
+ * @param y Y coordinate of the xpm
+ * @return 0 upon success, 1 otherwise
+*/
 int (vg_erase_xpm)(xpm_map_t xpm, uint16_t x, uint16_t y);
 
-uint8_t (get_memory_model)();
-
-uint32_t (direct_mode)(uint32_t R, uint32_t G, uint32_t B);
-
-uint32_t (indexed_mode)(uint16_t col, uint16_t row, uint8_t step, uint32_t first, uint8_t n);
-
-uint32_t (Red)(unsigned j, uint8_t step, uint32_t first);
-
-uint32_t (Green)(unsigned i, uint8_t step, uint32_t first);
-
-uint32_t (Blue)(unsigned i, unsigned j, uint8_t step, uint32_t first);
-
-uint32_t (R)(uint32_t color);
-
-uint32_t (G)(uint32_t color);
-
-uint32_t (B)(uint32_t color);
 
 #endif

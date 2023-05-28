@@ -33,6 +33,9 @@
 
 #define SQUARE_SIZE 108
 
+/**
+ * @brief Struct that represents a sprite
+*/
 typedef struct {
     uint16_t height, width;
     int x, y;  
@@ -56,14 +59,36 @@ Sprite *black_wins;
 Sprite *white_wins;
 
 
+/**
+ * @brief Creates a sprite based on a xpm
+ * @param xpm Xpm of the sprite
+ * @return Returns a pointer to the created sprite
+*/
 Sprite *create_sprite(xpm_map_t xpm);
 
+/**
+ * @brief Destroys a sprite
+ * @param sp Sprite to be destroyed
+*/
 void destroy_sprite(Sprite *sp);
 
+/**
+ * @brief Draws a sprite on the screen
+ * @param sp Sprite to be drawn
+ * @param x X coordinate of the sprite
+ * @param y Y coordinate of the sprite
+ * @return Returns 0 upon success and 1 otherwise
+*/
 int draw_sprite(Sprite *sp, int x, int y);
 
+/**
+ * @brief Loads all the sprites
+*/
 void load_sprites();
 
+/**
+ * @brief Dumps all the sprites
+*/
 void dump_sprites();
 
 #endif

@@ -1,13 +1,14 @@
 #include "dispatcher.h"
 
 int subscribe_devices() {
-    if (timer_subscribe_int(&irq_set_timer)) {
-        printf("Error subscribing timer interrupts\n");
+    
+    if (keyboard_subscribe_int(&irq_set_keyboard)) {
+        printf("Error subscribing keyboard interrupts\n");
         return 1;
     }
 
-    if (keyboard_subscribe_int(&irq_set_keyboard)) {
-        printf("Error subscribing keyboard interrupts\n");
+    if (timer_subscribe_int(&irq_set_timer)) {
+        printf("Error subscribing timer interrupts\n");
         return 1;
     }
 
@@ -15,11 +16,7 @@ int subscribe_devices() {
         printf("Error subscribing mouse interrupts\n");
         return 1;
     }
-
-    // subscribe serial port interrupts
-
-    // subscribe rtc interrupts
-
+    
     if(rtc_subscribe_int(&irq_set_rtc)) {
         printf("Error subscribing rtc interrupts\n");
         return 1;
@@ -43,10 +40,6 @@ int unsubscribe_devices() {
         printf("Error unsubscribing mouse interrupts\n");
         return 1;
     }
-
-    // unsubscribe serial port interrupts
-
-    // unsubscribe rtc interrupts
 
     if(rtc_unsubscribe_int()) {
         printf("Error unsubscribing rtc interrupts\n");
@@ -86,10 +79,6 @@ int dispatcher() {
 
                     if (msg.m_notify.interrupts & irq_set_mouse) {
                         mouse_handler();
-                    }
-
-                    if (msg.m_notify.interrupts & irq_set_serial_port) {
-                        serial_port_handler();
                     }
 
                     if (msg.m_notify.interrupts & irq_set_rtc) {
@@ -173,10 +162,6 @@ void mouse_handler() {
             }
         } 
     }
-}
-
-void serial_port_handler() {
-    
 }
 
 void rtc_handler() {
