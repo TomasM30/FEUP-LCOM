@@ -46,7 +46,7 @@
 <area shape="rect" id="node42" href="$timer_8c.html#a703c60b40c8c49607d6ecb6fef82d27a" title="Reads the input timer configuration via read&#45;back command." alt="" coords="513,1728,633,1755"/>
 <area shape="rect" id="node43" href="$utils_8c.html#a81621440b3d65680979425e39aa8c789" title=" " alt="" coords="521,1779,624,1805"/>
 <area shape="rect" id="node44" href="$utils_8c.html#a6a880076cd2ec468834438b6e0c58836" title=" " alt="" coords="519,1829,626,1856"/>
-<area shape="rect" id="node47" href="$sprite_8c.html#a16028be590c07cde5c28d1163abdbd8d" title=" " alt="" coords="302,1779,413,1805"/>
-<area shape="rect" id="node49" href="$sprite_8c.html#a26d3dd4d93472051b4e0bb50e319494b" title=" " alt="" coords="307,5,408,32"/>
+<area shape="rect" id="node47" href="$sprite_8c.html#a16028be590c07cde5c28d1163abdbd8d" title="Dumps all the sprites." alt="" coords="302,1779,413,1805"/>
+<area shape="rect" id="node49" href="$sprite_8c.html#a26d3dd4d93472051b4e0bb50e319494b" title="Loads all the sprites." alt="" coords="307,5,408,32"/>
 <area shape="rect" id="node50" href="$video_8c.html#ac1f219b3650265da34b322c221f75ba8" title="Initializes the VBE to the specified mode and gets access to the vram." alt="" coords="320,56,395,83"/>
 </map>

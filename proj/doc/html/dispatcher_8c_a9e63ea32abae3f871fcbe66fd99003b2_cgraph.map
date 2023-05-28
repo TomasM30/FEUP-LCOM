@@ -12,7 +12,7 @@
 <area shape="rect" id="node35" href="$chess_8c.html#ac461e2c971e475f03b477bd7350c65f1" title="Sets the game_over flag to true and stops the clock." alt="" coords="174,360,297,387"/>
 <area shape="rect" id="node37" href="$timer_8c.html#a91a2072306c68353712a6b771287dc2c" title="Timer 0 interrupt handler." alt="" coords="167,639,304,665"/>
 <area shape="rect" id="node38" href="$video_8c.html#a1622d960d9f550214c6795bc6474ae99" title="Copies the second buffer to the video memory and clears the second buffer." alt="" coords="175,689,296,716"/>
-<area shape="rect" id="node5" href="$sprite_8c.html#a600044d4fb3e3f4c81c7c6b95f90b883" title=" " alt="" coords="723,335,822,361"/>
+<area shape="rect" id="node5" href="$sprite_8c.html#a600044d4fb3e3f4c81c7c6b95f90b883" title="Draws a sprite on the screen." alt="" coords="723,335,822,361"/>
 <area shape="rect" id="node6" href="$video_8c.html#a08c498ffeb0a3962e3b7711b57397741" title="Draws a pixel in the specified coordinates with the specified color." alt="" coords="899,335,1013,361"/>
 <area shape="rect" id="node9" href="$menu_8c.html#a5606d8ee93f8a08a1a10d77f2b2c6581" title="Draws the game menu." alt="" coords="357,259,499,285"/>
 <area shape="rect" id="node11" href="$menu_8c.html#ad7ca2d21a727f7d55afef2392de3b5f8" title="Draws the main menu." alt="" coords="359,309,497,336"/>
